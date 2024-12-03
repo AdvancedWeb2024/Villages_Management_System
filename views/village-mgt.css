@@ -1,0 +1,15 @@
+.button{
+    background-color: #4A5568;
+    color: aliceblue;
+    border: transparent;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition-duration: 0.4s;
+}
+
+ /* Links on mouse-over */   
+.button:hover {
+    background-color: #684a55; 
+    color: white;
+}
