@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 newCssLink.href = `${section}.css`;
                 document.head.appendChild(newCssLink);
 
+                // Dynamically load section-specific JS
                 const jsLink = document.getElementById("section-js");
                 if (jsLink) jsLink.remove();
                 
@@ -39,7 +40,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 newJSLink.src = `${section}.js`; 
                 newJSLink.type = "text/javascript";
                 document.head.appendChild(newJSLink);
-                
+
+                //update title of the page
+                document.getElementById("title").innerHTML=section
+
+                document.getElementById("top-header").innerHTML = (() => {
+                    if (section === "village-mgt")
+                      return "Village Management";
+                    else
+                      return section.charAt(0).toUpperCase() + section.slice(1);
+                })();     
             })
             .catch((err) => {
                 console.error(err);
