@@ -22,7 +22,6 @@ const cityListContainer = document.getElementById("village-list");
 const prevButton = document.getElementById("prev-page");
 const nextButton = document.getElementById("next-page");
 
-
 // select sort option extend sizing whec drop
 selectElement.addEventListener('click', function () {
   selectElement.classList.add('open');
@@ -167,3 +166,44 @@ searchBar.addEventListener("input", function () {
   // Re-render the page with the filtered cities
   renderPage();
 });
+async function initializeAddVillage() {
+  const addVillageButton = document.getElementById("showFormBtn");
+  if (!addVillageButton) {
+      console.error("Add Village button not found");
+      return;
+  }
+
+  addVillageButton.addEventListener("click", async () => {
+      try {
+          const response = await fetch("./Add_village.html");
+          const overlayHTML = await response.text();
+
+          const overlayContainer = document.createElement("div");
+          overlayContainer.innerHTML = overlayHTML;
+          document.body.appendChild(overlayContainer);
+
+          const overlayCSS = document.createElement("link");
+          overlayCSS.rel = "stylesheet";
+          overlayCSS.href = "./styles_CURD.css";
+          document.head.appendChild(overlayCSS);
+
+          const overlay = document.getElementById("formOverlay");
+          overlay.style.display = "flex";
+
+          const closeButton = overlay.querySelector(".close-btn");
+          closeButton.addEventListener("click", () => {
+              overlay.style.display = "none";
+              document.body.removeChild(overlayContainer);
+              document.head.removeChild(overlayCSS);
+          });
+      } catch (error) {
+          console.error("Error loading overlay:", error);
+      }
+  });
+}
+
+
+
+
+
+

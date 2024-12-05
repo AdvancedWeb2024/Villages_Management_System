@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 mainContent.innerHTML = html;
                 console.log("html");
 
+    
                 // Dynamically load section-specific CSS
                 const cssLink = document.getElementById("section-css");
                 if (cssLink) cssLink.remove();
@@ -39,8 +40,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 newJSLink.id = "section-js"; 
                 newJSLink.src = `${section}.js`; 
                 newJSLink.type = "text/javascript";
+                if(section=="village-mgt")
+                    newJSLink.onload = () => {
+                   
+                        initializeAddVillage(); // Call the function to bind event listeners
+                         
+                };
                 document.head.appendChild(newJSLink);
 
+               
+                 
                 //update title of the page
                 document.getElementById("title").innerHTML=section
 
