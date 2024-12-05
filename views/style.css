@@ -1,0 +1,13 @@
+.button {
+    background-color: #4A5568;
+    border: transparent;
+    color: aliceblue;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition-duration: 0.4s;
+  }
+  .button:hover {
+    background-color: #684a55;
+  }
+  

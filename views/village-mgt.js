@@ -1,5 +1,5 @@
 const defaultCities = [
-  { name: "Jabalia-Gaza Strip" },
+  { name: "Jabalia-Gaza Strip"},
   { name: "Beit Lahia - Gaza Strip" },
   { name: "Shejaiya - Gaza Strip" },
   { name: "Rafah - Gaza Strip" },
@@ -47,7 +47,8 @@ function pageCounter() {
     getEndIndex: (citiesLength) => Math.min(startIndex + itemsPerPage, citiesLength), 
     incrementCurrentPage: () => currentPage++,
     decrementCurrentPage:(x)=>currentPage--,
-    getCurrentPage:()=>currentPage}
+    getCurrentPage:()=>currentPage,
+  }
 }
 
 const pageController=pageCounter();
@@ -82,6 +83,7 @@ function createButton(){
 }
 
 function renderPage() {
+  console.log("rendering");
   // Clear the existing list
   cityListContainer.innerHTML = "";
 
@@ -141,6 +143,7 @@ function compareStrings(a, b) {
 document.getElementById("sort-select").addEventListener("change", function() {
   if (this.value == "0") {
     cities=defaultCities.slice();
+    pageController.
     renderPage();
   }else{
     cities = cities.sort(function (a, b) {

@@ -1,0 +1,29 @@
+div.gallery-item {
+    border:none;
+    border-radius: 10px;
+    background-color: #2d3748;
+    margin: 10px;
+    max-width: 300px;
+    height: 250px;
+  }
+  
+  div.gallery-item img {
+    width: 280px;
+    height: 150px;
+    margin: 10px;
+    border-radius: 10px;
+  }
+  
+  .desc {
+    text-align: center;
+    color: aliceblue;
+  }
+
+  .image-list{
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+  }
