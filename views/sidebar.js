@@ -30,6 +30,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 newCssLink.rel = "stylesheet";
                 newCssLink.href = `${section}.css`;
                 document.head.appendChild(newCssLink);
+
+                const jsLink = document.getElementById("section-js");
+                if (jsLink) jsLink.remove();
+                
+                const newJSLink = document.createElement("script");
+                newJSLink.id = "section-js"; 
+                newJSLink.src = `${section}.js`; 
+                newJSLink.type = "text/javascript";
+                document.head.appendChild(newJSLink);
+                
             })
             .catch((err) => {
                 console.error(err);
