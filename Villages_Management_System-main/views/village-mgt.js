@@ -72,7 +72,7 @@ function createButton(cityName) {
 
   const updateDemographicButton = document.createElement("button");
   updateDemographicButton.classList.add("button", "button-cont", "update-demographic-btn");
-  updateDemographicButton.textContent = "Update Demographic Data";
+  updateDemographicButton.textContent = "Add Demographic Data";
   updateDemographicButton.dataset.villageName = cityName; // Add the village name here
 
   // Append buttons to button container
@@ -199,11 +199,57 @@ async function initializeAddVillage() {
         document.body.removeChild(overlayContainer);
         document.head.removeChild(overlayCSS);
       });
+
+      const form = overlay.querySelector("form");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent form submission
+
+        const villageName = form.querySelector("input[name='villageName']").value;
+        const region = form.querySelector("input[name='region']").value;
+        const landArea = form.querySelector("input[name='landArea']").value;
+        const latitude = form.querySelector("input[name='latitude']").value;
+        const longitude = form.querySelector("input[name='longitude']").value;
+        const image = form.querySelector("input[name='image']").files[0];
+        const categories = form.querySelector("input[name='categories']").value;
+
+        // Assuming the village data is added to the 'cities' array
+        const newVillage = {
+          name: villageName,
+          region,
+          landArea,
+          latitude,
+          longitude,
+          image: image ? URL.createObjectURL(image) : null,
+          categories: categories.split(",").map(tag => tag.trim())
+        };
+
+        // Add the new village to the cities list
+        cities.push(newVillage);
+
+        // Show success message
+        const successMessage = document.createElement("div");
+        successMessage.classList.add("success-message");
+        successMessage.textContent = "Village added successfully!";
+        document.body.appendChild(successMessage);
+
+        setTimeout(() => {
+          successMessage.remove(); // Remove success message after 3 seconds
+        }, 3000);
+
+        // Re-render the village list
+        renderPage();
+
+        // Close the form overlay
+        overlay.style.display = "none";
+        document.body.removeChild(overlayContainer);
+        document.head.removeChild(overlayCSS);
+      });
     } catch (error) {
       console.error("Error loading overlay:", error);
     }
   });
 }
+
 
 async function initializeUpdateVillage() {
   const updateButtons = document.querySelectorAll("#updateButton");
@@ -279,7 +325,7 @@ async function initializeUpdateDemographicData() {
 
         const formTitle = overlay.querySelector("#formTitle");
         if (formTitle) {
-          formTitle.textContent = `Update Demographic Data for ${villageName}`;
+          formTitle.textContent = `Add Demographic Data for ${villageName}`;
         }
 
         const form = overlay.querySelector("form");
@@ -293,3 +339,8 @@ async function initializeUpdateDemographicData() {
     });
   });
 }
+
+
+
+
+

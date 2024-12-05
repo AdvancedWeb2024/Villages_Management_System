@@ -69,6 +69,7 @@ body {
 .sidebar .user .logout-btn:hover {
   color: #f58a8a;
   font-weight: bolder;
+  cursor: pointer;
 }
 .menu-toggle {
   display: none;

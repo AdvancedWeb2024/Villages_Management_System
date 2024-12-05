@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- for icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- siderbar style -->
-     <link rel="stylesheet" href="./sidebar.css">
-     <link rel="stylesheet" id="section-css">
+    <!-- sidebar style -->
+    <link rel="stylesheet" href="./sidebar.css">
+    <link rel="stylesheet" id="section-css">
 
-    <title id="title">index</title>
+    <title id="title">Dashboard</title>
 </head>
 <body>
 
-    <!-- siderbar section start -->
+    <!-- sidebar section start -->
     <div class="sidebar">
         <div class="menu-toggle">
-			<div class="hamburger">
-				<span></span>
-			</div>
-		</div>
+            <div class="hamburger">
+                <span></span>
+            </div>
+        </div>
         <div class="top" id="top-header">Dashboard</div>
         <ul class="menu">
             <li><a href="#" data-section="overview">Overview</a></li>
@@ -28,28 +28,27 @@
             <li><a href="#" data-section="gallery">Gallery</a></li>
         </ul>
         <div class="user">
-            <img src="../images/user2.jpeg" alt="user image" class="user-img">
-            <p class="user-name">
-                Noor Sabri
+            <img src="../images/user.webp" alt="user image" class="user-img">
+            <p class="user-name" id="userName">
+                <!-- The username will be dynamically updated here -->
             </p>
-            <p class="logout-btn" role="button" tabindex="0">
+            <p class="logout-btn" id="logoutButton" role="button" tabindex="0">
                 Logout
             </p>
         </div>
     </div>
-    
-    <!-- siderbar section end -->
+    <!-- sidebar section end -->
 
     <!-- main section start -->
     <div class="main" id="main-content">
-
-
+        <!-- Main content will go here -->
     </div>
-    
-     <!-- main section end-->
-      
+    <!-- main section end -->
 
-     <script src="sidebar.js"></script>
-     
+   
+
+    <!-- Sidebar JavaScript -->
+    <script src="sidebar.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>

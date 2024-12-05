@@ -6,7 +6,6 @@ menu_toggle.addEventListener('click', () => {
     sidebar.classList.toggle('is-active');
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const mainContent = document.getElementById("main-content");
 
@@ -21,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 mainContent.innerHTML = html;
                 console.log("html");
 
-    
                 // Dynamically load section-specific CSS
                 const cssLink = document.getElementById("section-css");
                 if (cssLink) cssLink.remove();
@@ -35,32 +33,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Dynamically load section-specific JS
                 const jsLink = document.getElementById("section-js");
                 if (jsLink) jsLink.remove();
-                
+
                 const newJSLink = document.createElement("script");
                 newJSLink.id = "section-js"; 
                 newJSLink.src = `${section}.js`; 
                 newJSLink.type = "text/javascript";
-                if(section=="village-mgt")
+                if (section === "village-mgt") {
                     newJSLink.onload = () => {
-                   
                         initializeAddVillage(); // Call the function to bind event listeners
                         initializeUpdateVillage();
                         initializeUpdateDemographicData();
-
-                };
+                    };
+                }
                 document.head.appendChild(newJSLink);
 
-               
-                 
-                //update title of the page
-                document.getElementById("title").innerHTML=section
+                // Update title of the page
+                document.getElementById("title").innerHTML = section;
 
                 document.getElementById("top-header").innerHTML = (() => {
                     if (section === "village-mgt")
-                      return "Village Management";
+                        return "Village Management";
                     else
-                      return section.charAt(0).toUpperCase() + section.slice(1);
-                })();     
+                        return section.charAt(0).toUpperCase() + section.slice(1);
+                })();
             })
             .catch((err) => {
                 console.error(err);
@@ -68,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // Attach click events to menu items
+    
     document.querySelectorAll(".menu li a").forEach((btn) => {
         btn.addEventListener("click", function (e) {
             document.querySelectorAll('.menu li a').forEach((item) => item.classList.remove('active'));
@@ -78,5 +73,14 @@ document.addEventListener("DOMContentLoaded", function () {
             this.classList.add('active');
         });
     });
+
+    
+    const logoutButton = document.getElementById("logoutButton");
+    if (logoutButton) {
+        logoutButton.addEventListener("click", function () {
+            window.location.href = "sign_in.html"; 
+        });
+    }
 });
+
 

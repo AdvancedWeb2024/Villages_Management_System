@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Villages	Management	System">
+    <meta name="description" content="Villages Management System">
     <meta name="keywords" content="Villages">
     <title>Login</title>
     <link rel="stylesheet" href="styles_in_up.css">
@@ -11,10 +11,10 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="login.php" method="POST">
+        <form id="login-form">
             <div class="form-group">
-                <label for="email">Username</label>
-                <input type="email" id="email" name="email" placeholder="Enter your Username" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your Username" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -26,6 +26,6 @@
             <p>Don't have an account? <a href="sign_up.html">Sign up</a></p>
         </div>
     </div>
-
+    <script src="auth.js"></script>
 </body>
 </html>
