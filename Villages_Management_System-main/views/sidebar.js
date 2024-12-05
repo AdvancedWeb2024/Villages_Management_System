@@ -44,7 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     newJSLink.onload = () => {
                    
                         initializeAddVillage(); // Call the function to bind event listeners
-                         
+                        initializeUpdateVillage();
+                        initializeUpdateDemographicData();
+
                 };
                 document.head.appendChild(newJSLink);
 
