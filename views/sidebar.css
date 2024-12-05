@@ -17,6 +17,10 @@ body {
   flex-direction: column;
   gap: 16px;
   padding-top: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
 }
 .sidebar .top {
   color: aliceblue;
@@ -140,11 +144,20 @@ body {
   .sidebar.is-active {
     left: 0;
   }
+  .main {
+    width: 100%;
+    padding: 32px !important;
+    transition: padding-left 0.3s ease;
+  }
 }
 .main {
   background-color: #1A202C;
   flex-grow: 1;
   padding: 32px;
-  margin: 0;
+  padding-left: 25%;
   height: 100vh;
+  overflow-y: auto;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: margin-left 0.3s ease;
 }
