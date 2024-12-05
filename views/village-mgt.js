@@ -1,4 +1,4 @@
-const cities = [
+const defaultCities = [
   { name: "Jabalia-Gaza Strip" },
   { name: "Beit Lahia - Gaza Strip" },
   { name: "Shejaiya - Gaza Strip" },
@@ -14,6 +14,7 @@ const cities = [
   { name: "Quds - west Bank" },
   { name: "Nablus - west Bank" }
 ];
+let cities = [...defaultCities];
 
 const selectElement = document.getElementById('sort-select');
 selectElement.size = 1; //normal size
@@ -126,3 +127,43 @@ nextButton.addEventListener("click", () => {
 
 // Initial render
 renderPage();
+
+
+function compareStrings(a, b) {
+  // Assuming you want case-insensitive comparison
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+
+  return (a < b) ? -1 : (a > b) ? 1 : 0;
+}
+
+
+document.getElementById("sort-select").addEventListener("change", function() {
+  if (this.value == "0") {
+    cities=defaultCities.slice();
+    renderPage();
+  }else{
+    cities = cities.sort(function (a, b) {
+      return compareStrings(a.name || "", b.name || "");
+    }); 
+
+    // Re-render the page with the sorted tech
+    renderPage();
+  }
+});
+
+const searchBar = document.getElementById("search-bar");
+
+searchBar.addEventListener("input", function () {
+  const searchTerm = this.value.toLowerCase().trim(); 
+  if (searchTerm === "") {
+    cities = defaultCities.slice();
+  } else {
+    cities = defaultCities.filter((city) =>
+      city.name.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  // Re-render the page with the filtered cities
+  renderPage();
+});
