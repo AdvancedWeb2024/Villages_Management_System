@@ -47,6 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         initializeUpdateDemographicData();
                     };
                 }
+                if (section === "gallery") {
+                    newJSLink.onload = () => {
+                        initializeAddImage(); // Call the function to bind event listeners
+                    };
+                }
                 document.head.appendChild(newJSLink);
 
                 // Update title of the page
