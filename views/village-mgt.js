@@ -1,19 +1,4 @@
-const defaultCities = [
-  { name: "Jabalia-Gaza Strip"},
-  { name: "Beit Lahia - Gaza Strip" },
-  { name: "Shejaiya - Gaza Strip" },
-  { name: "Rafah - Gaza Strip" },
-  { name: "Hebron - west Bank"},
-  { name: "Quds - west Bank" },
-  { name: "Nablus - west Bank" },
-  { name: "Jabalia-Gaza Strip" },
-  { name: "Beit Lahia - Gaza Strip" },
-  { name: "Shejaiya - Gaza Strip" },
-  { name: "Rafah - Gaza Strip" },
-  { name: "Hebron - west Bank"},
-  { name: "Quds - west Bank" },
-  { name: "Nablus - west Bank" }
-];
+
 let cities = [...defaultCities];
 
 const selectElement = document.getElementById('sort-select');
