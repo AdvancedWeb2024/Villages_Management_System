@@ -23,3 +23,13 @@ let defaultCities = [
     { name: "Hebron - west Bank",image:"../images/jabalia.jpg",discreption:"Hebron ...."},
     { name: "Quds - west Bank" ,image:"../images/jabalia.jpg", discreption:"Quds ...."},
   ]
+
+  let demographicData= [
+    { villageName: "Jabalia-Gaza Strip", populationSize: "50000", ageDistribution: "0-14: 30%, 15-64: 60%, 65+: 10%", genderRatios: "Male: 51%, Female: 49%", growthRate: "2.5%" },
+    { villageName: "Beit Lahia - Gaza Strip", populationSize: "60000", ageDistribution: "0-14: 32%, 15-64: 58%, 65+: 10%", genderRatios: "Male: 52%, Female: 48%", growthRate: "2.8%" },
+    { villageName: "Shejaiya - Gaza Strip", populationSize: "45000", ageDistribution: "0-14: 28%, 15-64: 62%, 65+: 10%", genderRatios: "Male: 50%, Female: 50%", growthRate: "3.0%" },
+    { villageName: "Rafah - Gaza Strip", populationSize: "70000", ageDistribution: "0-14: 33%, 15-64: 57%, 65+: 10%", genderRatios: "Male: 53%, Female: 47%", growthRate: "2.3%" },
+    { villageName: "Hebron - West Bank", populationSize: "80000", ageDistribution: "0-14: 29%, 15-64: 61%, 65+: 10%", genderRatios: "Male: 49%, Female: 51%", growthRate: "2.0%" },
+    { villageName: "Quds - West Bank", populationSize: "120000", ageDistribution: "0-14: 35%, 15-64: 55%, 65+: 10%", genderRatios: "Male: 50%, Female: 50%", growthRate: "2.7%" },
+    { villageName: "Nablus - West Bank", populationSize: "95000", ageDistribution: "0-14: 31%, 15-64: 59%, 65+: 10%", genderRatios: "Male: 51%, Female: 49%", growthRate: "2.6%" }
+];
