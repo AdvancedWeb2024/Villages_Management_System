@@ -1,20 +1,20 @@
 
-const defaultCities = [
-  { name: "Jabalia-Gaza Strip" },
-  { name: "Beit Lahia - Gaza Strip" },
-  { name: "Shejaiya - Gaza Strip" },
-  { name: "Rafah - Gaza Strip" },
-  { name: "Hebron - West Bank" },
-  { name: "Quds - West Bank" },
-  { name: "Nablus - West Bank" },
-  { name: "Jabalia-Gaza Strip" },
-  { name: "Beit Lahia - Gaza Strip" },
-  { name: "Shejaiya - Gaza Strip" },
-  { name: "Rafah - Gaza Strip" },
-  { name: "Hebron - West Bank" },
-  { name: "Quds - West Bank" },
-  { name: "Nablus - West Bank" }
-];
+// const defaultCities = [
+//   { name: "Jabalia-Gaza Strip" },
+//   { name: "Beit Lahia - Gaza Strip" },
+//   { name: "Shejaiya - Gaza Strip" },
+//   { name: "Rafah - Gaza Strip" },
+//   { name: "Hebron - West Bank" },
+//   { name: "Quds - West Bank" },
+//   { name: "Nablus - West Bank" },
+//   { name: "Jabalia-Gaza Strip" },
+//   { name: "Beit Lahia - Gaza Strip" },
+//   { name: "Shejaiya - Gaza Strip" },
+//   { name: "Rafah - Gaza Strip" },
+//   { name: "Hebron - West Bank" },
+//   { name: "Quds - West Bank" },
+//   { name: "Nablus - West Bank" }
+// ];
 
 let cities = [...defaultCities];
 const selectElement = document.getElementById('sort-select');

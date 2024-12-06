@@ -53,13 +53,13 @@ new Chart("genderChart", {
   }
 });
 
-const cities = ["City 1", "City 2", "City 3", "City 4", "City 5", "City 6", "City 4", "City 5", "City 6"];
+const citiesM = ["City 1", "City 2", "City 3", "City 4", "City 5", "City 6", "City 4", "City 5", "City 6"];
 const population = [120000, 200000, 150000, 220000, 250000, 250000, 220000, 250000, 250000];
 
 new Chart("populationChart", {
   type: "bar",
   data: {
-    labels: cities,
+    labels: citiesM,
     datasets: [{
       label: "Population",
       data: population,
