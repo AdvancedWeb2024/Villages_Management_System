@@ -1,6 +1,6 @@
 // Data for Age Distribution
 const xValuesAge = ["0-18", "19-35", "36-50", "51-65", "65+"];
-const yValuesAge = [55, 49, 44, 24, 15];
+const yValuesAge = calculateAvgAgeDistribution(demographicData);
 const pieColorsAge = [
   "#a74c65",
   "#2f72a3",
@@ -19,21 +19,28 @@ new Chart("ageChart", {
     }]
   },
   options: {
-    title: {
-      display: true,
-      text: "Age Distribution",
-      borderWidth: 0
+    responsive: true,
+    maintainAspectRatio: false,  
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: "Age Distribution"
+      }
     }
   }
 });
 
-// Data for Gender Ratio
+
 const xValuesGender = ["Male", "Female"];
-const yValuesGender = [55, 49];
+const yValuesGender = calculateAvgGenderRatio(demographicData);
 const pieColorsGender = [
   "#a74c65",
   "#2f72a3",
 ];
+
 
 new Chart("genderChart", {
   type: "pie",
@@ -45,16 +52,22 @@ new Chart("genderChart", {
     }]
   },
   options: {
-    title: {
-      display: true,
-      text: "Gender Ratio",
-      borderWidth: 0
+    responsive: true,
+    maintainAspectRatio: false,  
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: "Gender Ratio"
+      }
     }
   }
 });
 
-const cities = ["City 1", "City 2", "City 3", "City 4", "City 5", "City 6", "City 4", "City 5", "City 6"];
-const population = [120000, 200000, 150000, 220000, 250000, 250000, 220000, 250000, 250000];
+const cities = getVillageNames(demographicData);
+const population = getPopulationSizes(demographicData);
 
 new Chart("populationChart", {
   type: "bar",
@@ -69,8 +82,8 @@ new Chart("populationChart", {
     }]
   },
   options: {
-    responsive: true, 
-    maintainAspectRatio: false,  
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       y: {
         beginAtZero: true,
@@ -80,10 +93,10 @@ new Chart("populationChart", {
           text: 'Population'
         },
         ticks: {
-         
           callback: function(value) {
-            return value / 1000 + "k";  
-          }
+            return value / 1000 + "k"; 
+          },
+          stepSize: 50000, 
         },
       },
       x: {
@@ -92,18 +105,27 @@ new Chart("populationChart", {
           text: 'Cities'
         },
         ticks: {
-          maxRotation: 0,  
-          autoSkip: false,  
-          maxTicksLimit: 10   
+          maxRotation: 0,
+          autoSkip: false,
+          maxTicksLimit: 10, 
         },
-        barPercentage: 0.9,  
-        categoryPercentage: 0.9, 
+        barPercentage: 0.9,
+        categoryPercentage: 0.9,
       }
     },
     plugins: {
       legend: {
-        display: false  
+        display: false, 
       }
     }
   }
 });
+
+var map = L.map('map').setView([31.5, 34.47], 10); // Centered on Gaza (latitude: 31.5, longitude: 34.47)
+
+// Add a tile layer (OpenStreetMap)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+addLocationsToMap(defaultCities);

@@ -47,6 +47,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         initializeUpdateDemographicData();
                     };
                 }
+                if (section === "overview") {
+                    newJSLink.onload = () => {
+                        updateStatistics();
+                    };
+                }
+
                 document.head.appendChild(newJSLink);
 
                 // Update title of the page

@@ -1,65 +1,113 @@
-/* General styling for headings */
 .top-head {
     font-weight: bolder;
     font-size: 2rem;
     color: aliceblue;
     margin: 0;
-}
-
-/* Style for the statistics container */
-.statistic {
+  }
+  
+  .statistic {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin: 5px;
+    justify-content: space-between;
     flex-wrap: wrap;
-}
-
-/* Styling for each statistic item */
-.st-item {
-    border-radius: 8px;
-    padding: 8px 16px;
-    color: aliceblue;
+    margin-bottom: 20px;
+    
+  }
+  
+  .st-item {
     background-color: #1f2937;
+    color: aliceblue;
+    padding: 16px;
+    border-radius: 8px;
     font-weight: bold;
-    width: 180px;
-    height: 80px;
+    flex: 1;
     margin: 10px;
-    align-content: center;
-}
-
-/* Styling for the text inside each statistic item */
-.st-item p {
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .st-item p {
     margin: 5px;
-}
-
-/* General styling for chart containers */
+  }
+  
+/* General chart container styling */
 .chart-canva {
     background-color: #1f2937;
     padding: 16px;
     margin: 16px;
     border-radius: 10px;
-}
-
-/* Styling for the chart title */
-.chart-canva h2 {
-    color: aliceblue;
-    text-align: center;
-    margin: 5px;
-}
-
-/* Ensure canvas takes full width of the container */
-canvas {
-    width: 100% !important;
-    height: 300px !important;
-}
-
-/* Custom background color for the bar chart container */
-.chart-canva#populationChartContainer {
-    background-color: #374151; /* Change this to the desired color for the bar chart container */
-    padding: 16px;
-    margin: 16px;
-    border-radius: 10px;
     flex: 1;
-    min-width: 200px;
+    min-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  /* Header for the chart */
+  .chart-canva h2 {
+    color: aliceblue;
+    margin: 0;
+    font-size: 1.5em;
+    text-align: center;
+    padding-bottom: 8px;
+  }
+  
+  /* For the Pie Chart Containers */
+  .chart-canva#ageChartContainer,
+  .chart-canva#genderChartContainer {
+    padding: 30px;
+    height: 450px;
+    width: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 16px;  /* Add space between charts */
+  }
+  
+  /* Canvas styling to ensure the pie chart takes full container size */
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+  
+  /* Styling for the legend */
+  .legend {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    gap: 20px;  /* Spacing between legend items */
+  }
+
+  .chart-canva#populationChartContainer {
+    background-color: #374151;
+
+  }
+  
+  .map-container {
+    background-color: #374151;
+    padding: 15px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; 
+    width: 95%; 
+    max-width: 1200px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+#map {
+    height: 350px;
+    width: 100%; 
+    border-radius: 10px; 
+    border: 2px solid black; 
+    outline: 2px solid white;
+    box-sizing: border-box; 
 }
