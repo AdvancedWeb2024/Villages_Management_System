@@ -1,3 +1,4 @@
+
 const defaultCities = [
   { name: "Jabalia-Gaza Strip" },
   { name: "Beit Lahia - Gaza Strip" },
@@ -18,9 +19,11 @@ const defaultCities = [
 let cities = [...defaultCities];
 const selectElement = document.getElementById('sort-select');
 selectElement.size = 1; // normal size
+
 const cityListContainer = document.getElementById("village-list");
 const prevButton = document.getElementById("prev-page");
 const nextButton = document.getElementById("next-page");
+
 
 // Select sort option - extend sizing when dropdown is clicked
 selectElement.addEventListener('click', function () {
@@ -34,9 +37,23 @@ selectElement.addEventListener('blur', function () {
   selectElement.size = 1;
 });
 
+// select sort option extend sizing whec drop
+selectElement.addEventListener('click', function () {
+  selectElement.classList.add('open');
+    selectElement.size = 2;
+});
+
+// select sort option normal sizing 
+selectElement.addEventListener('blur', function () {
+  selectElement.classList.remove('open');
+    selectElement.size = 1;
+
+});
+
 function pageCounter() {
   let currentPage = 1;
   const itemsPerPage = 5;
+
   let startIndex = 0;
 
   return {
@@ -54,6 +71,7 @@ function pageCounter() {
 const pageController = pageCounter();
 
 function createButton(cityName) {
+
   const buttonContainer = document.createElement("div");
 
   const viewButton = document.createElement("button");
@@ -63,17 +81,22 @@ function createButton(cityName) {
   const updateButton = document.createElement("button");
   updateButton.classList.add("button", "button-cont");
   updateButton.textContent = "Update Village";
+
   updateButton.id = "updateButton";
   updateButton.dataset.villageName = cityName; // Add the village name here
+
+
 
   const deleteButton = document.createElement("button");
   deleteButton.classList.add("button", "button-cont");
   deleteButton.textContent = "Delete Village";
 
   const updateDemographicButton = document.createElement("button");
+
   updateDemographicButton.classList.add("button", "button-cont", "update-demographic-btn");
   updateDemographicButton.textContent = "Add Demographic Data";
   updateDemographicButton.dataset.villageName = cityName; // Add the village name here
+
 
   // Append buttons to button container
   buttonContainer.appendChild(viewButton);
@@ -82,9 +105,11 @@ function createButton(cityName) {
   buttonContainer.appendChild(updateDemographicButton);
 
   return buttonContainer;
+
 }
 
 function renderPage() {
+
   // Clear the existing list
   cityListContainer.innerHTML = "";
 
@@ -104,7 +129,9 @@ function renderPage() {
     villageItem.appendChild(cityName); // Append city name to item container
 
     // Create the buttons section
+
     const buttonContainer = createButton(city.name);
+
 
     // Append buttons' container to item container
     villageItem.appendChild(buttonContainer);
@@ -114,8 +141,10 @@ function renderPage() {
   });
 
   // Enable/disable buttons
+
   prevButton.disabled = pageController.getCurrentPage() === 1; // No prev 
   nextButton.disabled = endIndex >= cities.length; // No next at the end
+
 }
 
 prevButton.addEventListener("click", () => {
@@ -131,6 +160,7 @@ nextButton.addEventListener("click", () => {
 // Initial render
 renderPage();
 
+
 function compareStrings(a, b) {
   // Assuming you want case-insensitive comparison
   a = a.toLowerCase();
@@ -138,6 +168,7 @@ function compareStrings(a, b) {
 
   return (a < b) ? -1 : (a > b) ? 1 : 0;
 }
+
 
 document.getElementById("sort-select").addEventListener("change", function () {
   if (this.value == "0") {
@@ -149,6 +180,7 @@ document.getElementById("sort-select").addEventListener("change", function () {
     });
 
     // Re-render the page with the sorted cities
+
     renderPage();
   }
 });
@@ -339,7 +371,6 @@ async function initializeUpdateDemographicData() {
     });
   });
 }
-
 
 
 

@@ -1,0 +1,50 @@
+.top-head{
+
+    font-weight: bolder;
+    font-size: 2rem;
+    color: aliceblue;
+    margin: 0;
+}
+
+.statistic{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 5px;
+    flex-wrap: wrap;
+}
+
+.st-item{
+    border-radius: 8px;
+    padding:8px 16px;
+    color: aliceblue;
+    background-color: #1f2937;
+    font-weight: bold;
+    width:180px;
+    height: 80px;
+    margin: 10px;
+    align-content: center;
+}
+
+.st-item p{
+    margin: 5px;
+}
+
+.chart-canva{
+    background-color:#1f2937 ;
+    padding: 16px;
+    margin: 16px;
+    border-radius: 10px;
+
+}
+.chart-canva h2{
+    color: aliceblue;
+    text-align: center;
+    margin: 5px;
+}
+canvas{
+    width: 400px !important;
+    align-items: center;
+    height: 300px !important;
+    
+}

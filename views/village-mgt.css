@@ -1,6 +1,7 @@
 .village-mgt {
   color: aliceblue;
 }
+
 .button {
   background-color: #4A5568;
   border: transparent;
@@ -13,6 +14,7 @@
 .button:hover {
   background-color: #684a55;
 }
+
 .view-village {
   margin-top: 16px;
   background-color: #2D3748;

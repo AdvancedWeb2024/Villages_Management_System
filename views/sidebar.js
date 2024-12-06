@@ -6,6 +6,7 @@ menu_toggle.addEventListener('click', () => {
     sidebar.classList.toggle('is-active');
 });
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const mainContent = document.getElementById("main-content");
 
@@ -38,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 newJSLink.id = "section-js"; 
                 newJSLink.src = `${section}.js`; 
                 newJSLink.type = "text/javascript";
+
                 if (section === "village-mgt") {
                     newJSLink.onload = () => {
                         initializeAddVillage(); // Call the function to bind event listeners
@@ -56,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     else
                         return section.charAt(0).toUpperCase() + section.slice(1);
                 })();
+
             })
             .catch((err) => {
                 console.error(err);
@@ -63,7 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    
     document.querySelectorAll(".menu li a").forEach((btn) => {
         btn.addEventListener("click", function (e) {
             document.querySelectorAll('.menu li a').forEach((item) => item.classList.remove('active'));
@@ -73,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.classList.add('active');
         });
     });
+
 
     
     const logoutButton = document.getElementById("logoutButton");
