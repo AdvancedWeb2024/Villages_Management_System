@@ -1,12 +1,13 @@
-.top-head{
-
+/* General styling for headings */
+.top-head {
     font-weight: bolder;
     font-size: 2rem;
     color: aliceblue;
     margin: 0;
 }
 
-.statistic{
+/* Style for the statistics container */
+.statistic {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -14,37 +15,51 @@
     flex-wrap: wrap;
 }
 
-.st-item{
+/* Styling for each statistic item */
+.st-item {
     border-radius: 8px;
-    padding:8px 16px;
+    padding: 8px 16px;
     color: aliceblue;
     background-color: #1f2937;
     font-weight: bold;
-    width:180px;
+    width: 180px;
     height: 80px;
     margin: 10px;
     align-content: center;
 }
 
-.st-item p{
+/* Styling for the text inside each statistic item */
+.st-item p {
     margin: 5px;
 }
 
-.chart-canva{
-    background-color:#1f2937 ;
+/* General styling for chart containers */
+.chart-canva {
+    background-color: #1f2937;
     padding: 16px;
     margin: 16px;
     border-radius: 10px;
-
 }
-.chart-canva h2{
+
+/* Styling for the chart title */
+.chart-canva h2 {
     color: aliceblue;
     text-align: center;
     margin: 5px;
 }
-canvas{
-    width: 400px !important;
-    align-items: center;
+
+/* Ensure canvas takes full width of the container */
+canvas {
+    width: 100% !important;
     height: 300px !important;
-    
+}
+
+/* Custom background color for the bar chart container */
+.chart-canva#populationChartContainer {
+    background-color: #374151; /* Change this to the desired color for the bar chart container */
+    padding: 16px;
+    margin: 16px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 200px;
 }
