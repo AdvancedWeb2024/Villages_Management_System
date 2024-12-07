@@ -72,7 +72,7 @@ new Chart("genderChart", {
 });
 
 
-const cities = getVillageNames(demographicData);
+const citiesM = getVillageNames(demographicData);
 const population = getPopulationSizes(demographicData);
 
 
@@ -136,3 +136,4 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 addLocationsToMap(defaultCities);
+updateStatistics();
