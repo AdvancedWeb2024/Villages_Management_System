@@ -33,7 +33,7 @@ function addVillage(form){
   
     addVillageButton.addEventListener("click", async () => {
       try {
-        const response = await fetch("./Add_village.html");
+        const response = await fetch("../html/add-village.html");
         const overlayHTML = await response.text();
   
         const {overlay,overlayCSS,overlayContainer}=overlayFun(overlayHTML);
@@ -99,7 +99,7 @@ updateButtons.forEach((button) => {
     const villageToUpdate = defaultCities.find(city => city.name === villageName); 
 
     try {
-      const response = await fetch("./update_village.html");
+      const response = await fetch("../html/update-village.html");
       const overlayHTML = await response.text();
       const {overlay,overlayCSS,overlayContainer}=overlayFun(overlayHTML);
 
@@ -142,9 +142,6 @@ function setUpdateFormDemg(form, DemographicToUpdate) {
 function updateDemographic(form, villageName) {
   const ageDistribution = form.querySelector("input[name='ageDistribution']").value;
   const genderRatios = form.querySelector("input[name='genderRatios']").value;
-  console.log(validateAgeDistribution("0-14: 30%, 15-64: 60%, 65+: 10%"));
-console.log(validateGenderRatios("Male: 51%, Female: 49%"));
-
 
   // Validate inputs
   if (!validateAgeDistribution(ageDistribution) || !validateGenderRatios(genderRatios)) {
@@ -181,7 +178,7 @@ async function initializeUpdateDemographicData() {
       const villageName = event.target.dataset.villageName;
       const DemographicToUpdate = demographicData.find(city => city.villageName === villageName); 
       try {
-        const response = await fetch("./Add_Demographic_Data.html");
+        const response = await fetch("../html/add-demographic-data.html");
         const overlayHTML = await response.text();
 
         const { overlay, overlayCSS, overlayContainer } = overlayFun(overlayHTML);
@@ -230,7 +227,7 @@ async function initializeViewData() {
       console.log(villageName);
       const villageToView = defaultCities.find(city => city.name === villageName); 
       try {
-        const response = await fetch("./viewDetails.html");
+        const response = await fetch("../html/view-details.html");
         const overlayHTML = await response.text();
 
         const { overlay, overlayCSS, overlayContainer } = overlayFun(overlayHTML);

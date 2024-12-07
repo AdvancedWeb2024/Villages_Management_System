@@ -1,7 +1,7 @@
 
-const addNewImage=document.getElementById("add-image");
+var addNewImage=document.getElementById("add-image");
 
-const imageListContainer=document.getElementById("image-list");
+var imageListContainer=document.getElementById("image-list");
 
 
 function renderPage(){
@@ -39,7 +39,7 @@ async function initializeAddImage() {
 
   addNewImage.addEventListener("click", async () => {
     try {
-      const response = await fetch("./add_image.html");
+      const response = await fetch("../html/add-image.html");
       const overlayHTML = await response.text();
       const {overlay,overlayCSS,overlayContainer}=overlayFun(overlayHTML);
 

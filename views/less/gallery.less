@@ -1,0 +1,36 @@
+@bg-dark: #2d3748;
+@text-light: aliceblue;
+
+.gallery {
+  .image-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .gallery-item {
+    background-color: @bg-dark;
+    border-radius: 10px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .desc {
+    text-align: center;
+    color: @text-light;
+    margin-top: 10px;
+  }
+}

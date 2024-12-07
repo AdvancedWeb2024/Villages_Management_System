@@ -14,7 +14,7 @@ if (loginForm) {
             sessionStorage.setItem('username', user.username);
             sessionStorage.setItem('fullName', user.fullName);
 
-            window.location.href = 'index.html';
+            window.location.href = '../html/index.html';
         } else {
             alert('Invalid username or password!');
         }
@@ -46,7 +46,7 @@ if (signUpForm) {
             alert('Sign-up successful! You can now log in.');
 
            
-            window.location.href = 'sign_in.html';
+            window.location.href = '../html/sign-in.html';
         }
     });
 }
@@ -67,6 +67,6 @@ if (logoutButton) {
 
         alert("You have been logged out.");
         
-        window.location.href = 'login.html';
+        window.location.href = '../html/sign-in.html';
     });
 }

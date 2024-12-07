@@ -1,12 +1,12 @@
 
-let cities = [...defaultCities];
-const selectElement = document.getElementById('sort-select');
+var cities = [...defaultCities];
+var selectElement = document.getElementById('sort-select');
 selectElement.size = 1; // normal size
 
-const cityListContainer = document.getElementById("village-list");
-const prevButton = document.getElementById("prev-page");
-const nextButton = document.getElementById("next-page");
-const searchBar = document.getElementById("search-bar");
+var cityListContainer = document.getElementById("village-list");
+var prevButton = document.getElementById("prev-page");
+var nextButton = document.getElementById("next-page");
+var searchBar = document.getElementById("search-bar");
 
 searchBar.addEventListener("input", function () {
   const searchTerm = this.value.toLowerCase().trim(); 
@@ -68,7 +68,7 @@ function pageCounter() {
   };
 }
 
-const pageController = pageCounter();
+var pageController = pageCounter();
 
 function createButton(cityName) {
   const buttonContainer = document.createElement("div");
@@ -158,7 +158,7 @@ renderPage();
 
 
 function compareStrings(a, b) {
-  // Assuming you want case-insensitive comparison
+  //  case-insensitive comparison
   a = a.toLowerCase();
   b = b.toLowerCase();
 

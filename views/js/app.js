@@ -5,7 +5,7 @@ function overlayFun(overlayHTML){
 
     const overlayCSS = document.createElement("link");
     overlayCSS.rel = "stylesheet";
-    overlayCSS.href = "./styles_CURD.css";
+    overlayCSS.href = "../css/styles-CURD.css";
     document.head.appendChild(overlayCSS);
 
     const overlay = document.getElementById("formOverlay");

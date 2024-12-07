@@ -1,7 +1,7 @@
 // Data for Age Distribution
-const xValuesAge = ["0-18", "19-35", "36-50", "51-65", "65+"];
-const yValuesAge = calculateAvgAgeDistribution(demographicData);
-const pieColorsAge = [
+var xValuesAge = ["0-18", "19-35", "36-50", "51-65", "65+"];
+var yValuesAge = calculateAvgAgeDistribution(demographicData);
+var pieColorsAge = [
   "#a74c65",
   "#2f72a3",
   "#a58c4d",
@@ -39,9 +39,9 @@ new Chart("ageChart", {
 
 
 
-const xValuesGender = ["Male", "Female"];
-const yValuesGender = calculateAvgGenderRatio(demographicData);
-const pieColorsGender = [
+var xValuesGender = ["Male", "Female"];
+var yValuesGender = calculateAvgGenderRatio(demographicData);
+var pieColorsGender = [
   "#a74c65",
   "#2f72a3",
 ];
@@ -72,8 +72,8 @@ new Chart("genderChart", {
 });
 
 
-const citiesM = getVillageNames(demographicData);
-const population = getPopulationSizes(demographicData);
+var citiesM = getVillageNames(demographicData);
+var population = getPopulationSizes(demographicData);
 
 
 new Chart("populationChart", {

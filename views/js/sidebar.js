@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
    
     function loadContent(section) {
-        fetch(`${section}.html`)
+        fetch(`../html/${section}.html`)
             .then((response) => {
                 if (!response.ok) throw new Error(`Failed to load ${section}.html`);
                 return response.text();
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const newCssLink = document.createElement("link");
                 newCssLink.id = "section-css";
                 newCssLink.rel = "stylesheet";
-                newCssLink.href = `${section}.css`;
+                newCssLink.href = `../css/${section}.css`;
                 document.head.appendChild(newCssLink);
 
                 
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const newJSLink = document.createElement("script");
                 newJSLink.id = "section-js"; 
-                newJSLink.src = `${section}.js`; 
+                newJSLink.src = `../js/${section}.js`; 
                 newJSLink.type = "text/javascript";
                 document.head.appendChild(newJSLink);
 
@@ -73,9 +73,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoutButton = document.getElementById("logoutButton");
     if (logoutButton) {
         logoutButton.addEventListener("click", function () {
-            window.location.href = "sign_in.html"; 
+            window.location.href = "../html/sign-in.html"; 
         });
     }
 });
+
+
 
 

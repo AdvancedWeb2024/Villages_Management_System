@@ -1,0 +1,106 @@
+// Define variables for colors and dimensions
+@background-color: #1f2937;
+@primary-color: #3c82f6;
+@hover-color: #2a68c1;
+@active-color: #1e58a3;
+@text-color: #9ca3af;
+@search-bg: #ffffff;
+@padding: 10px;
+@margin: 16px;
+
+.chat {
+    .search-bar-chat {
+        background-color: @search-bg;
+        padding: @padding;
+        width: calc(100% - (16px * 2));
+        border-radius: 8px;
+        border-color: transparent;
+        color: #717a88;
+        margin: @margin 0;
+    }
+
+    .div-block {
+        background-color: @background-color;
+        padding: 16px;
+        justify-content: center;
+        margin-bottom: 16px;
+        border-radius: 10px;
+
+        h3 {
+            margin-top: 0;
+        }
+    }
+
+    .admins-list {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: flex-start;
+        border-radius: 10px;
+
+        div {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+
+            img {
+                width: 50px;
+                border-radius: 50%;
+            }
+
+            p {
+                color: @text-color;
+                margin-top: 5px;
+                text-wrap: wrap;
+            }
+        }
+    }
+
+    .chatting {
+        background-color: @background-color;
+        border: 1px solid #4b5563;
+        height: 250px;
+        width: calc(100% - (5px * 2));
+        border-radius: 10px;
+        margin: 5px 0;
+    }
+
+    textarea {
+        width: calc(100% - (5px * 2));
+        border-radius: 10px;
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: @primary-color;
+        color: white;
+        border-radius: 8px;
+        padding: @padding 5px;
+        font-size: 16px;
+        border: none;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background-color: @hover-color;
+            font-size: 18px;
+            transform: scale(1.05);
+        }
+
+        &:active {
+            background-color: @active-color;
+            transform: scale(1);
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:checked {
+            background-color: aliceblue;
+            color: @primary-color;
+        }
+    }
+}

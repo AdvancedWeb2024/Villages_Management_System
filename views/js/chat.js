@@ -1,5 +1,4 @@
-let activeAdmins=[...adminData];
-
+var activeAdmins=[...adminData];
 
 function renderPage(){
     displayAdminInfo();
@@ -48,9 +47,9 @@ function renderPage(){
     });
   }
   
-const searchBar=document.getElementById("search-bar");
+var searchBarChat=document.getElementById("search-bar-chat");
 
-  searchBar.addEventListener("input", function () {
+searchBarChat.addEventListener("input", function () {
     const searchTerm = this.value.toLowerCase().trim(); 
     console.log(searchTerm)
     if (searchTerm === "") {
