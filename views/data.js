@@ -24,6 +24,7 @@ let defaultCities = [
     { name: "Quds - west Bank" ,image:"../images/jabalia.jpg", discreption:"Quds ...."},
   ]
 
+
   let demographicData = [
     { 
         villageName: "Jabalia-Gaza Strip", 
@@ -242,3 +243,26 @@ function addLocationsToMap(cities) {
       .openPopup();
   });
 }
+
+
+
+const ageDistributionPattern = /^(0-18: \d+%, 19-35: \d+%, 36-50: \d+%, 51-65: \d+%, 65\+: \d+%)(, \d+-\d+: \d+%)*$/;
+
+const genderRatiosPattern = /^(Male\s*:\s*\d+\s*%,\s*Female\s*:\s*\d+\s*%)$|^(Female\s*:\s*\d+\s*%,\s*Male\s*:\s*\d+\s*%)$/;
+
+// Validation functions
+function validateAgeDistribution(ageDistribution) {
+  const normalizedAgeDistribution = ageDistribution.trim().replace(/\s+/g, ' ');
+  console.log("Validating Age Distribution:", normalizedAgeDistribution);
+  return ageDistributionPattern.test(normalizedAgeDistribution);
+
+}
+
+function validateGenderRatios(genderRatios) {
+ 
+  const normalizedGenderRatios = genderRatios.trim().replace(/\s+/g, ' ');
+  console.log("Validating Gender Ratios:", normalizedGenderRatios);
+  return genderRatiosPattern.test(normalizedGenderRatios)
+
+}
+

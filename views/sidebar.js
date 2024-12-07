@@ -10,7 +10,7 @@ menu_toggle.addEventListener('click', () => {
 document.addEventListener("DOMContentLoaded", function () {
     const mainContent = document.getElementById("main-content");
 
-    // Function to load HTML content dynamically
+   
     function loadContent(section) {
         fetch(`${section}.html`)
             .then((response) => {
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 mainContent.innerHTML = html;
                 console.log("html");
 
-                // Dynamically load section-specific CSS
+                
                 const cssLink = document.getElementById("section-css");
                 if (cssLink) cssLink.remove();
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 newCssLink.href = `${section}.css`;
                 document.head.appendChild(newCssLink);
 
-                // Dynamically load section-specific JS
+                
                 const jsLink = document.getElementById("section-js");
                 if (jsLink) jsLink.remove();
 
@@ -39,23 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 newJSLink.id = "section-js"; 
                 newJSLink.src = `${section}.js`; 
                 newJSLink.type = "text/javascript";
-
-                if (section === "village-mgt") {
-                    newJSLink.onload = () => {
-                        initializeAddVillage(); // Call the function to bind event listeners
-                        initializeUpdateVillage();
-                        initializeUpdateDemographicData();
-                    };
-                }
-                if (section === "overview") {
-                    newJSLink.onload = () => {
-                        updateStatistics();
-                    };
-                }
-
                 document.head.appendChild(newJSLink);
 
-                // Update title of the page
+                
                 document.getElementById("title").innerHTML = section;
 
                 document.getElementById("top-header").innerHTML = (() => {

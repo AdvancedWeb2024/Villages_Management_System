@@ -71,13 +71,15 @@ new Chart("genderChart", {
   }
 });
 
+
 const cities = getVillageNames(demographicData);
 const population = getPopulationSizes(demographicData);
+
 
 new Chart("populationChart", {
   type: "bar",
   data: {
-    labels: cities,
+    labels: citiesM,
     datasets: [{
       label: "Population",
       data: population,

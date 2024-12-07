@@ -1,21 +1,4 @@
 
-const defaultCities = [
-  { name: "Jabalia-Gaza Strip" },
-  { name: "Beit Lahia - Gaza Strip" },
-  { name: "Shejaiya - Gaza Strip" },
-  { name: "Rafah - Gaza Strip" },
-  { name: "Hebron - West Bank" },
-  { name: "Quds - West Bank" },
-  { name: "Nablus - West Bank" },
-  { name: "Jabalia-Gaza Strip" },
-  { name: "Beit Lahia - Gaza Strip" },
-  { name: "Shejaiya - Gaza Strip" },
-  { name: "Rafah - Gaza Strip" },
-  { name: "Hebron - West Bank" },
-  { name: "Quds - West Bank" },
-  { name: "Nablus - West Bank" }
-];
-
 let cities = [...defaultCities];
 const selectElement = document.getElementById('sort-select');
 selectElement.size = 1; // normal size
@@ -23,6 +6,23 @@ selectElement.size = 1; // normal size
 const cityListContainer = document.getElementById("village-list");
 const prevButton = document.getElementById("prev-page");
 const nextButton = document.getElementById("next-page");
+const searchBar = document.getElementById("search-bar");
+
+searchBar.addEventListener("input", function () {
+  const searchTerm = this.value.toLowerCase().trim(); 
+  console.log(searchTerm)
+  if (searchTerm === "") {
+    cities = defaultCities.slice();
+  } else {
+    cities = defaultCities.filter((city) =>
+      city.name.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  // Re-render the page with the filtered cities
+  renderPage();
+});
+
 
 
 // Select sort option - extend sizing when dropdown is clicked
@@ -71,42 +71,32 @@ function pageCounter() {
 const pageController = pageCounter();
 
 function createButton(cityName) {
-
   const buttonContainer = document.createElement("div");
 
-  const viewButton = document.createElement("button");
-  viewButton.classList.add("button", "button-cont");
-  viewButton.textContent = "View";
+  // Helper function to create a button
+  const createButtonElement = (text, id, extraClasses = []) => {
+    const button = document.createElement("button");
+    button.classList.add("button", "button-cont", ...extraClasses);
+    button.textContent = text;
+    button.id = id;
+    button.dataset.villageName = cityName;
+    return button;
+  };
 
-  const updateButton = document.createElement("button");
-  updateButton.classList.add("button", "button-cont");
-  updateButton.textContent = "Update Village";
+  // Create buttons
+  const viewButton = createButtonElement("View", "view-btn");
+  const updateButton = createButtonElement("Update Village", "updateButton");
+  const deleteButton = createButtonElement("Delete Village", "delete-btn");
+  const updateDemographicButton = createButtonElement("Add Demographic Data","update-demographic-btn",["update-demographic-btn"]);
 
-  updateButton.id = "updateButton";
-  updateButton.dataset.villageName = cityName; // Add the village name here
-
-
-
-  const deleteButton = document.createElement("button");
-  deleteButton.classList.add("button", "button-cont");
-  deleteButton.textContent = "Delete Village";
-
-  const updateDemographicButton = document.createElement("button");
-
-  updateDemographicButton.classList.add("button", "button-cont", "update-demographic-btn");
-  updateDemographicButton.textContent = "Add Demographic Data";
-  updateDemographicButton.dataset.villageName = cityName; // Add the village name here
-
-
-  // Append buttons to button container
-  buttonContainer.appendChild(viewButton);
-  buttonContainer.appendChild(updateButton);
-  buttonContainer.appendChild(deleteButton);
-  buttonContainer.appendChild(updateDemographicButton);
+  // Append buttons to the container
+  [viewButton, updateButton, deleteButton, updateDemographicButton].forEach((btn) => {
+    buttonContainer.appendChild(btn);
+  });
 
   return buttonContainer;
-
 }
+
 
 function renderPage() {
 
@@ -136,9 +126,15 @@ function renderPage() {
     // Append buttons' container to item container
     villageItem.appendChild(buttonContainer);
 
-    // Append item container to list container
-    cityListContainer.appendChild(villageItem);
+     // Append item container to list container
+     cityListContainer.appendChild(villageItem);
+   
   });
+  initializeAddVillage(); // Call the function to bind event listeners
+  initializeUpdateVillage();
+  initializeUpdateDemographicData();
+  initializeViewData();
+  initializeDeleteVillage();
 
   // Enable/disable buttons
 
@@ -184,194 +180,4 @@ document.getElementById("sort-select").addEventListener("change", function () {
     renderPage();
   }
 });
-
-const searchBar = document.getElementById("search-bar");
-
-searchBar.addEventListener("input", function () {
-  const searchTerm = this.value.toLowerCase().trim(); 
-  if (searchTerm === "") {
-    cities = defaultCities.slice();
-  } else {
-    cities = defaultCities.filter((city) =>
-      city.name.toLowerCase().includes(searchTerm)
-    );
-  }
-
-  // Re-render the page with the filtered cities
-  renderPage();
-});
-
-async function initializeAddVillage() {
-  const addVillageButton = document.getElementById("showFormBtn");
-  if (!addVillageButton) {
-    console.error("Add Village button not found");
-    return;
-  }
-
-  addVillageButton.addEventListener("click", async () => {
-    try {
-      const response = await fetch("./Add_village.html");
-      const overlayHTML = await response.text();
-
-      const overlayContainer = document.createElement("div");
-      overlayContainer.innerHTML = overlayHTML;
-      document.body.appendChild(overlayContainer);
-
-      const overlayCSS = document.createElement("link");
-      overlayCSS.rel = "stylesheet";
-      overlayCSS.href = "./styles_CURD.css";
-      document.head.appendChild(overlayCSS);
-
-      const overlay = document.getElementById("formOverlay");
-      overlay.style.display = "flex";
-
-      const closeButton = overlay.querySelector(".close-btn");
-      closeButton.addEventListener("click", () => {
-        overlay.style.display = "none";
-        document.body.removeChild(overlayContainer);
-        document.head.removeChild(overlayCSS);
-      });
-
-      const form = overlay.querySelector("form");
-      form.addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent form submission
-
-        const villageName = form.querySelector("input[name='villageName']").value;
-        const region = form.querySelector("input[name='region']").value;
-        const landArea = form.querySelector("input[name='landArea']").value;
-        const latitude = form.querySelector("input[name='latitude']").value;
-        const longitude = form.querySelector("input[name='longitude']").value;
-        const image = form.querySelector("input[name='image']").files[0];
-        const categories = form.querySelector("input[name='categories']").value;
-
-        // Assuming the village data is added to the 'cities' array
-        const newVillage = {
-          name: villageName,
-          region,
-          landArea,
-          latitude,
-          longitude,
-          image: image ? URL.createObjectURL(image) : null,
-          categories: categories.split(",").map(tag => tag.trim())
-        };
-
-        // Add the new village to the cities list
-        cities.push(newVillage);
-
-        // Show success message
-        const successMessage = document.createElement("div");
-        successMessage.classList.add("success-message");
-        successMessage.textContent = "Village added successfully!";
-        document.body.appendChild(successMessage);
-
-        setTimeout(() => {
-          successMessage.remove(); // Remove success message after 3 seconds
-        }, 3000);
-
-        // Re-render the village list
-        renderPage();
-
-        // Close the form overlay
-        overlay.style.display = "none";
-        document.body.removeChild(overlayContainer);
-        document.head.removeChild(overlayCSS);
-      });
-    } catch (error) {
-      console.error("Error loading overlay:", error);
-    }
-  });
-}
-
-
-async function initializeUpdateVillage() {
-  const updateButtons = document.querySelectorAll("#updateButton");
-
-  updateButtons.forEach((button) => {
-    button.addEventListener("click", async (event) => {
-      const villageName = event.target.dataset.villageName; 
-
-      try {
-        const response = await fetch("./update_village.html");
-        const overlayHTML = await response.text();
-
-        const overlayContainer = document.createElement("div");
-        overlayContainer.innerHTML = overlayHTML;
-        document.body.appendChild(overlayContainer);
-
-        const overlayCSS = document.createElement("link");
-        overlayCSS.rel = "stylesheet";
-        overlayCSS.href = "./styles_CURD.css";
-        document.head.appendChild(overlayCSS);
-
-        const overlay = document.getElementById("formOverlay");
-        overlay.style.display = "flex";
-
-        const closeButton = overlay.querySelector(".close-btn");
-        closeButton.addEventListener("click", () => {
-          overlay.style.display = "none";
-          document.body.removeChild(overlayContainer);
-          document.head.removeChild(overlayCSS);
-        });
-
-        const form = overlay.querySelector("form");
-        if (form) {
-          form.querySelector("input[name='villageName']").value = villageName; 
-        }
-
-      } catch (error) {
-        console.error("Error loading overlay:", error);
-      }
-    });
-  });
-}
-
-async function initializeUpdateDemographicData() {
-  const updateDemographicButtons = document.querySelectorAll(".update-demographic-btn");
-
-  updateDemographicButtons.forEach((button) => {
-    button.addEventListener("click", async (event) => {
-      const villageName = event.target.dataset.villageName; 
-
-      try {
-        const response = await fetch("./Add_Demographic_Data.html");
-        const overlayHTML = await response.text();
-
-        const overlayContainer = document.createElement("div");
-        overlayContainer.innerHTML = overlayHTML;
-        document.body.appendChild(overlayContainer);
-
-        const overlayCSS = document.createElement("link");
-        overlayCSS.rel = "stylesheet";
-        overlayCSS.href = "./styles_CURD.css";
-        document.head.appendChild(overlayCSS);
-
-        const overlay = document.getElementById("formOverlay");
-        overlay.style.display = "flex";
-
-        const closeButton = overlay.querySelector(".close-btn");
-        closeButton.addEventListener("click", () => {
-          overlay.style.display = "none";
-          document.body.removeChild(overlayContainer);
-          document.head.removeChild(overlayCSS);
-        });
-
-        const formTitle = overlay.querySelector("#formTitle");
-        if (formTitle) {
-          formTitle.textContent = `Add Demographic Data for ${villageName}`;
-        }
-
-        const form = overlay.querySelector("form");
-        if (form) {
-          form.querySelector("input[name='villageName']").value = villageName;
-        }
-
-      } catch (error) {
-        console.error("Error loading overlay:", error);
-      }
-    });
-  });
-}
-
-
-
 
