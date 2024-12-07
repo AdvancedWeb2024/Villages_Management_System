@@ -20,11 +20,11 @@ function overlayFun(overlayHTML){
       return {overlay,overlayCSS,overlayContainer};
 }
 
-function successMsg() {
+function successMsg(msg) {
   // Show success message
   const successMessage = document.createElement("div");
   successMessage.classList.add("success-message");
-  successMessage.textContent = " Added successfully!";
+  successMessage.textContent = msg || "Added successfully!";
   document.body.appendChild(successMessage);
 
   // Apply overlay styles dynamically

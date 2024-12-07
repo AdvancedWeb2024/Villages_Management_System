@@ -24,6 +24,7 @@ function renderPage(){
         // Append item container to list container
         imageListContainer.appendChild(galleryItem);
   });
+  initializeAddImage();
 
 }
 

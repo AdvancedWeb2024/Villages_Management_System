@@ -39,19 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 newJSLink.id = "section-js"; 
                 newJSLink.src = `${section}.js`; 
                 newJSLink.type = "text/javascript";
-
-                if (section === "village-mgt") {
-                    newJSLink.onload = () => {
-                        initializeAddVillage(); // Call the function to bind event listeners
-                        initializeUpdateVillage();
-                        initializeUpdateDemographicData();
-                    };
-                }
-                if (section === "gallery") {
-                    newJSLink.onload = () => {
-                        initializeAddImage(); // Call the function to bind event listeners
-                    };
-                }
                 document.head.appendChild(newJSLink);
 
                 // Update title of the page
