@@ -24,6 +24,13 @@ let defaultCities = [
     { name: "Quds - west Bank" ,image:"../images/jabalia.jpg", discreption:"Quds ...."},
   ]
 
+  let adminData = [
+    {name: "Asmaa Yahya",email: "noor@gmail.com",active:"y",image:"../images/user.webp"},
+    {name: "Noor Sabri",email: "asmaa@gmail.com",active:"y",image:"../images/user.webp"},
+    {name: "Amjad Abu-Hassan",email: "amjad@gmail.com",active:"y",image:"../images/user.webp"},
+    {name: "Ali Kahlil",email: "ali@gmail.com",active:"n",image:"../images/user.webp"}];
+  
+
 
   let demographicData = [
     { 
