@@ -79,7 +79,7 @@ let defaultCities = [
     },
     { 
         villageName: "Hebron - West Bank", 
-        populationSize: "80000", 
+        populationSize: "500000", 
         ageDistribution: {
             "0-18": "58%",  
             "19-35": "20%",

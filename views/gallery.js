@@ -1,25 +1,30 @@
+function renderPage() {
+  const imageListContainer = document.getElementById("image-list");
 
-function renderPage(){
+  defaultCities.forEach((city) => {
+    // Create gallery item container
+    const galleryItem = document.createElement("div");
+    galleryItem.classList.add("gallery-item");
 
-    const imageListContainer=document.getElementById("image-list");
+    // Create city image
+    const cityImg = document.createElement("img");
+    cityImg.src = city.image;
 
-    defaultCities.forEach((city) => {
-        const galleryItem = document.createElement("div");
-        galleryItem.classList.add("gallery-item");
-    
-        const cityImg = document.createElement("img");
-        cityImg.src=city.image;
-        galleryItem.appendChild(cityImg); // Append city image to item container
-    
-        const discreption = document.createElement("div");
-        galleryItem.classList.add("desc");
-        discreption.innerText="discreption...........";
-        galleryItem.appendChild(discreption);// Append city disc to item container
-    
-        // Append item container to list container
-        imageListContainer.appendChild(galleryItem);
+    // Append city image to gallery item
+    galleryItem.appendChild(cityImg);
+
+    // Create city description
+    const description = document.createElement("div");
+    description.classList.add("desc");
+    description.innerText = `Description of ${city.name}`;
+
+    // Append description to gallery item
+    galleryItem.appendChild(description);
+
+    // Append gallery item to list container
+    imageListContainer.appendChild(galleryItem);
   });
-
 }
 
+// Render the page on load
 renderPage();

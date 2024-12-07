@@ -34,6 +34,11 @@ new Chart("ageChart", {
 });
 
 
+
+
+
+
+
 const xValuesGender = ["Male", "Female"];
 const yValuesGender = calculateAvgGenderRatio(demographicData);
 const pieColorsGender = [
