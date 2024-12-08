@@ -1,0 +1,101 @@
+@primary-bg: #1A202B;
+@container-bg: #202937;
+@text-color: white;
+@input-bg: #ffffff;
+@input-border: #ccc;
+@primary-button: #3B82F6;
+@button-hover: #0056b3;
+@link-color: #60A5FA;
+@link-hover: underline;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: @primary-bg;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    background: @container-bg;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: @text-color;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        .form-group {
+            margin-bottom: 15px;
+
+            label {
+                font-size: 14px;
+                margin-bottom: 5px;
+                display: block;
+                color: @text-color;
+                margin-left: 2%;
+            }
+
+            input {
+                width: 90%;
+                padding: 10px;
+                border: 1px solid @input-border;
+                border-radius: 4px;
+                font-size: 14px;
+                display: block;
+                margin: 0 auto;
+                background: @input-bg;
+
+                &:focus {
+                    border-color: @primary-button;
+                    outline: none;
+                    box-shadow: 0 0 5px fade(@primary-button, 50%);
+                }
+            }
+        }
+    }
+
+    button {
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        background: @primary-button;
+        color: @text-color;
+        font-size: 16px;
+        cursor: pointer;
+        width: 95%;
+        display: block;
+        margin: 0 auto;
+
+        &:hover {
+            background: @button-hover;
+        }
+    }
+
+    .footer-text {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 14px;
+        color: lighten(@text-color, 30%);
+
+        a {
+            color: @link-color;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: @link-hover;
+            }
+        }
+    }
+}

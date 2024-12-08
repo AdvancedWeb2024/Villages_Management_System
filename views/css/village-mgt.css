@@ -1,0 +1,93 @@
+.village-mgt {
+  color: aliceblue;
+}
+
+.button {
+  background-color: #4A5568;
+  border: transparent;
+  color: aliceblue;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition-duration: 0.4s;
+}
+.button:hover {
+  background-color: #684a55;
+}
+
+.view-village {
+  margin-top: 16px;
+  background-color: #2D3748;
+  border-radius: 20px;
+  padding: 16px;
+}
+input[type="text"] {
+  padding: 10px;
+  width: calc(100% - (16px * 2));
+  border-radius: 8px;
+  border-color: transparent;
+  background-color: #374151;
+  color: #717a88;
+}
+.Village-list-control,
+.village-list-item {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+.sort select {
+  background-color: #374151;
+  border-radius: 8px;
+  color: aliceblue;
+  padding: 8px;
+  border: none;
+  height: auto;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.sort select option {
+  background-color: #b7bdc4;
+  color: #2b2c2e;
+  box-sizing: border-box;
+  padding: 8px 16px;
+}
+.sort select option:hover {
+  background-color: #a2b0b9;
+}
+.sort select option:checked {
+  background-color: #b7bdc4 !important;
+  color: #2b2c2e;
+  position: relative;
+}
+.sort select option:checked::before {
+  content: "✔";
+  color: #2b2c2e;
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.sort select.open {
+  position: absolute;
+  z-index: 1;
+  margin-left: 8px;
+  height: auto;
+  max-height: 80px;
+  overflow: visible;
+  border: none;
+  background-color: #b7bdc4;
+}
+.village-list-item {
+  background-color: #374151;
+  padding: 10px;
+  border-radius: 16px;
+  align-items: center;
+}
+.button-cont {
+  background-color: #718096;
+  margin: 10px;
+}
+.village-list {
+  display: flex;
+  flex-direction: column;
+}
