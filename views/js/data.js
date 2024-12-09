@@ -3,18 +3,18 @@ let defaultCities = [
   { name: "Beit Lahia - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 18.2, latitude: 31.588, longitude: 34.529, category: "Urban" },
   { name: "Shejaiya - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 10.3, latitude: 31.529, longitude: 34.477, category: "Urban" },
   { name: "Rafah - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 22.1, latitude: 31.276, longitude: 34.258, category: "Urban" },
-  { name: "Hebron - West Bank", image: "../../images/jabalia.jpg", region: "West Bank", landArea: 60.2, latitude: 31.531, longitude: 35.089, category: "City" },
-  { name: "Quds - West Bank", image: "../../images/jabalia.jpg", region: "West Bank", landArea: 48.6, latitude: 31.768, longitude: 35.213, category: "City" },
-  { name: "Nablus - West Bank", image: "../../images/jabalia.jpg", region: "West Bank", landArea: 45.8, latitude: 32.221, longitude: 35.262, category: "City" },
-  { name: "Jabalia-Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 15.5, latitude: 31.528, longitude: 34.464, category: "Urban" },
-  { name: "Beit Lahia - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 18.2, latitude: 31.588, longitude: 34.529, category: "Urban" },
-  { name: "Shejaiya - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 10.3, latitude: 31.529, longitude: 34.477, category: "Urban" },
-  { name: "Rafah - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 22.1, latitude: 31.276, longitude: 34.258, category: "Urban" },
-  { name: "Hebron - West Bank", image: "../../images/jabalia.jpg", region: "West Bank", landArea: 60.2, latitude: 31.531, longitude: 35.089, category: "City" },
-  { name: "Quds - West Bank", image: "../../images/jabalia.jpg", region: "West Bank", landArea: 48.6, latitude: 31.768, longitude: 35.213, category: "City" },
-  { name: "Nablus - West Bank", image: "../../images/jabalia.jpg", region: "West Bank", landArea: 45.8, latitude: 32.221, longitude: 35.262, category: "City" }
+  { name: "Hebron - West Bank", image: "../../images/hebron.jpg", region: "West Bank", landArea: 60.2, latitude: 31.531, longitude: 35.089, category: "City" },
+  { name: "Quds - West Bank", image: "../../images/quds.jpg", region: "West Bank", landArea: 48.6, latitude: 31.768, longitude: 35.213, category: "City" },
+  { name: "Nablus - West Bank", image: "../../images/nablus.jpg", region: "West Bank", landArea: 45.8, latitude: 32.221, longitude: 35.262, category: "City" },
+  { name: "Jenin - West Bank", image: "../../images/jenin.jpg", region: "West Bank", landArea: 37.3, latitude: 32.459, longitude: 35.300, category: "City" },
+  { name: "Tulkarm - West Bank", image: "../../images/tulkarm.jpg", region: "West Bank", landArea: 28.0, latitude: 32.311, longitude: 35.021, category: "City" },
+  { name: "Qalqilya - West Bank", image: "../../images/qalqilya.jpg", region: "West Bank", landArea: 23.0, latitude: 32.189, longitude: 34.970, category: "City" },
+  { name: "Bethlehem - West Bank", image: "../../images/bethlehem.jpg", region: "West Bank", landArea: 27.4, latitude: 31.705, longitude: 35.202, category: "City" },
+  { name: "Ramallah - West Bank", image: "../../images/ramallah.jpg", region: "West Bank", landArea: 16.3, latitude: 31.899, longitude: 35.204, category: "City" },
+  { name: "Jericho - West Bank", image: "../../images/jericho.jpg", region: "West Bank", landArea: 58.7, latitude: 31.866, longitude: 35.459, category: "City" },
+  { name: "Salfit - West Bank", image: "../../images/salfit.jpg", region: "West Bank", landArea: 23.5, latitude: 32.083, longitude: 35.183, category: "City" },
+  { name: "Tubas - West Bank", image: "../../images/tubas.jpg", region: "West Bank", landArea: 25.0, latitude: 32.320, longitude: 35.369, category: "City" }
 ];
-
 
   let imagesData=[{ name: "Jabalia-Gaza Strip",image:"../../images/jabalia.jpg",discreption:"jabalia ...."},
     { name: "Beit Lahia - Gaza Strip",image:"../../images/jabalia.jpg",discreption:"Beit Lahia ...." },

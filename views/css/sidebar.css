@@ -13,7 +13,6 @@
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: 10000;
 }
 .sidebar .top {
   color: aliceblue;
@@ -36,7 +35,7 @@
   background-color: #2D3748;
   font-weight: bold;
 }
-.sidebar .menu li a.active {
+.sidebar .menu li .active {
   background-color: #2D3748;
 }
 .sidebar .user {
@@ -62,7 +61,6 @@
 .sidebar .user .logout-btn:hover {
   color: #f58a8a;
   font-weight: bolder;
-  cursor: pointer;
 }
 .menu-toggle {
   display: none;
@@ -93,68 +91,24 @@
   background-color: #FFF;
   transition-duration: 0.25s;
 }
-.menu-toggle .hamburger span::before {
+.menu-toggle .hamburger > span::before {
   content: '';
   top: -8px;
 }
-.menu-toggle .hamburger span::after {
+.menu-toggle .hamburger > span::after {
   content: '';
   top: 8px;
 }
-.menu-toggle .hamburger.is-active span {
+.menu-toggle.is-active .hamburger span {
   transform: rotate(45deg);
 }
-.menu-toggle .hamburger.is-active span::before {
+.menu-toggle.is-active .hamburger span::before {
   top: 0;
   transform: rotate(0deg);
 }
-.menu-toggle .hamburger.is-active span::after {
+.menu-toggle.is-active .hamburger span::after {
   top: 0;
   transform: rotate(90deg);
-}
-.main {
-  background-color: #1A202C;
-  flex-grow: 1;
-  padding: 32px;
-  padding-left: 21%;
-  height: 100vh;
-  overflow-y: auto;
-  background-attachment: fixed;
-  background-size: cover;
-  transition: margin-left 0.3s ease;
-}
-@media (max-width: 700px) {
-  .main {
-    padding-left: 0;
-  }
-  .main .sidebar {
-    position: fixed;
-    top: 0;
-    left: -250px;
-    height: 100vh;
-    width: 100%;
-    max-width: 250px;
-    transition: 0.2s linear;
-  }
-  .main .sidebar.is-active {
-    left: 0;
-  }
-  .main .main {
-    width: 100%;
-    padding: 32px !important;
-    transition: padding-left 0.3s ease;
-  }
-  .main .user {
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
-  .main .user .logout-btn {
-    margin-left: 0;
-  }
-  .main .menu-toggle {
-    display: block;
-  }
 }
 @media (max-width: 850px) {
   .user {
@@ -165,4 +119,37 @@
   .user .logout-btn {
     margin-left: 0;
   }
+}
+@media (max-width: 700px) {
+  .menu-toggle {
+    display: block;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100vh;
+    width: 100%;
+    max-width: 250px;
+    transition: 0.2s linear;
+  }
+  .sidebar.is-active {
+    left: 0;
+  }
+  .main {
+    width: 100%;
+    padding: 32px !important;
+    transition: padding-left 0.3s ease;
+  }
+}
+.main {
+  background-color: #1A202C;
+  flex-grow: 1;
+  padding: 32px;
+  padding-left: 25%;
+  height: 100vh;
+  overflow-y: auto;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: margin-left 0.3s ease;
 }
