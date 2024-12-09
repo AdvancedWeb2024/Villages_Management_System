@@ -1,15 +1,25 @@
+/* Keep existing styles */
 .top-head {
   font-weight: bolder;
   font-size: 2rem;
   color: aliceblue;
   margin: 0;
 }
+h2.top-head {
+  font-size: 1.8rem; /* Adjust the font size */
+  font-weight: bold;
+  color: aliceblue; /* Set a color (dark gray in this case) */
+  margin-bottom: 20px; 
+  margin-left: 1%;/* Add some spacing below */
+}
+
 .statistic {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
+
 .st-item {
   background-color: #1f2937;
   color: aliceblue;
@@ -25,9 +35,11 @@
   justify-content: center;
   text-align: center;
 }
+
 .st-item p {
   margin: 5px;
 }
+
 .chart-canva {
   background-color: #1f2937;
   padding: 16px;
@@ -41,6 +53,7 @@
   flex-direction: column;
   text-align: center;
 }
+
 .chart-canva h2 {
   color: aliceblue;
   margin: 0;
@@ -48,31 +61,37 @@
   text-align: center;
   padding-bottom: 8px;
 }
+
 .chart-canva.ageChartContainer,
 .chart-canva.genderChartContainer {
   padding: 30px;
-  height: 450px;
-  width: 450px;
+  height: 500px;
+  width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   margin-bottom: 16px;
 }
+
 .chart-canva.populationChartContainer {
   background-color: #374151;
+  height: 400px;
 }
+
 canvas {
   width: 100% !important;
-  height: 100% !important;
+  max-height: 500px;
   display: block;
 }
+
 .legend {
   display: flex;
   justify-content: center;
   padding: 10px 0;
   gap: 20px;
 }
+
 .map-container {
   background-color: #374151;
   padding: 15px;
@@ -85,6 +104,7 @@ canvas {
   justify-content: center;
   align-items: center;
 }
+
 .map-container #map {
   height: 350px;
   width: 100%;
@@ -92,4 +112,56 @@ canvas {
   border: 2px solid black;
   outline: 2px solid white;
   box-sizing: border-box;
+}
+
+
+@media (max-width: 1200px) {
+  .chart-canva.ageChartContainer,
+  .chart-canva.genderChartContainer {
+    height: 350px;  
+    width: 350px;
+  }
+
+  .chart-canva h2 {
+    font-size: 1.3em;  
+  }
+
+  .legend {
+    font-size: 1rem;  
+    gap: 15px;  
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-canva.ageChartContainer,
+  .chart-canva.genderChartContainer {
+    height: 250px;  
+    width: 250px;
+  }
+
+  .chart-canva h2 {
+    font-size: 1.1em;  
+  }
+
+  .legend {
+    font-size: 0.9rem;  
+    gap: 10px;  
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-canva.ageChartContainer,
+  .chart-canva.genderChartContainer {
+    height: 200px;  
+    width: 200px;
+  }
+
+  .chart-canva h2 {
+    font-size: 1em;  
+  }
+
+  .legend {
+    font-size: 0.8rem;  
+    gap: 8px;  
+  }
 }
