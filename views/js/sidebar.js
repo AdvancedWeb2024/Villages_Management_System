@@ -6,11 +6,9 @@ menu_toggle.addEventListener('click', () => {
     sidebar.classList.toggle('is-active');
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const mainContent = document.getElementById("main-content");
 
-   
     function loadContent(section) {
         fetch(`../html/${section}.html`)
             .then((response) => {
@@ -19,9 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then((html) => {
                 mainContent.innerHTML = html;
-                console.log("html");
 
-                
                 const cssLink = document.getElementById("section-css");
                 if (cssLink) cssLink.remove();
 
@@ -31,17 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 newCssLink.href = `../css/${section}.css`;
                 document.head.appendChild(newCssLink);
 
-                
                 const jsLink = document.getElementById("section-js");
                 if (jsLink) jsLink.remove();
 
                 const newJSLink = document.createElement("script");
-                newJSLink.id = "section-js"; 
-                newJSLink.src = `../js/${section}.js`; 
+                newJSLink.id = "section-js";
+                newJSLink.src = `../js/${section}.js`;
                 newJSLink.type = "text/javascript";
                 document.head.appendChild(newJSLink);
 
-                
                 document.getElementById("title").innerHTML = section;
 
                 document.getElementById("top-header").innerHTML = (() => {
@@ -50,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     else
                         return section.charAt(0).toUpperCase() + section.slice(1);
                 })();
-
             })
             .catch((err) => {
                 console.error(err);
@@ -68,16 +61,29 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+  
+    const username = sessionStorage.getItem('username');
+    const role = sessionStorage.getItem('role');
 
-    
-    const logoutButton = document.getElementById("logoutButton");
-    if (logoutButton) {
-        logoutButton.addEventListener("click", function () {
-            window.location.href = "../html/sign-in.html"; 
-        });
+    if (username && role === "user") {
+        const defaultSection = "overview";
+        const defaultLink = document.querySelector(`.menu li a[data-section="${defaultSection}"]`);
+        
+        if (defaultLink) {
+            defaultLink.classList.add('active');
+        }
+
+        loadContent(defaultSection);
+    } else if (username && role === "admin") {
+        const defaultSection = "village-mgt"; 
+        const defaultLink = document.querySelector(`.menu li a[data-section="${defaultSection}"]`);
+        
+        if (defaultLink) {
+            defaultLink.classList.add('active');
+        }
+
+        loadContent(defaultSection);
+    } else {
+        window.location.href = "../html/sign-in.html";
     }
 });
-
-
-
-
