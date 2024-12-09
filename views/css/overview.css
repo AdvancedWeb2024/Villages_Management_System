@@ -1,25 +1,22 @@
-/* Keep existing styles */
 .top-head {
-  font-weight: bolder;
+  font-weight: bold;
   font-size: 2rem;
   color: aliceblue;
   margin: 0;
 }
 h2.top-head {
-  font-size: 1.8rem; /* Adjust the font size */
+  font-size: 1.8rem;
   font-weight: bold;
-  color: aliceblue; /* Set a color (dark gray in this case) */
-  margin-bottom: 20px; 
-  margin-left: 1%;/* Add some spacing below */
+  color: aliceblue;
+  margin-bottom: 20px;
+  margin-left: 1%;
 }
-
 .statistic {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
-
 .st-item {
   background-color: #1f2937;
   color: aliceblue;
@@ -35,25 +32,22 @@ h2.top-head {
   justify-content: center;
   text-align: center;
 }
-
 .st-item p {
   margin: 5px;
 }
-
 .chart-canva {
   background-color: #1f2937;
   padding: 16px;
   margin: 16px;
   border-radius: 10px;
   flex: 1;
-  min-width: 400px;
+  min-width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
 }
-
 .chart-canva h2 {
   color: aliceblue;
   margin: 0;
@@ -61,9 +55,8 @@ h2.top-head {
   text-align: center;
   padding-bottom: 8px;
 }
-
-.chart-canva.ageChartContainer,
-.chart-canva.genderChartContainer {
+.chart-canva .ageChartContainer,
+.chart-canva .genderChartContainer {
   padding: 30px;
   height: 500px;
   width: 500px;
@@ -73,25 +66,21 @@ h2.top-head {
   position: relative;
   margin-bottom: 16px;
 }
-
-.chart-canva.populationChartContainer {
+.chart-canva .populationChartContainer {
   background-color: #374151;
   height: 400px;
 }
-
-canvas {
+.chart-canva canvas {
   width: 100% !important;
   max-height: 500px;
   display: block;
 }
-
 .legend {
   display: flex;
   justify-content: center;
   padding: 10px 0;
   gap: 20px;
 }
-
 .map-container {
   background-color: #374151;
   padding: 15px;
@@ -104,7 +93,6 @@ canvas {
   justify-content: center;
   align-items: center;
 }
-
 .map-container #map {
   height: 350px;
   width: 100%;
@@ -113,55 +101,45 @@ canvas {
   outline: 2px solid white;
   box-sizing: border-box;
 }
-
-
 @media (max-width: 1200px) {
-  .chart-canva.ageChartContainer,
-  .chart-canva.genderChartContainer {
-    height: 350px;  
+  .chart-canva .ageChartContainer,
+  .chart-canva .genderChartContainer {
+    height: 350px;
     width: 350px;
   }
-
   .chart-canva h2 {
-    font-size: 1.3em;  
+    font-size: 1.3em;
   }
-
   .legend {
-    font-size: 1rem;  
-    gap: 15px;  
+    font-size: 1rem;
+    gap: 15px;
   }
 }
-
 @media (max-width: 768px) {
-  .chart-canva.ageChartContainer,
-  .chart-canva.genderChartContainer {
-    height: 250px;  
+  .chart-canva .ageChartContainer,
+  .chart-canva .genderChartContainer {
+    height: 250px;
     width: 250px;
   }
-
   .chart-canva h2 {
-    font-size: 1.1em;  
+    font-size: 1.1em;
   }
-
   .legend {
-    font-size: 0.9rem;  
-    gap: 10px;  
+    font-size: 0.9rem;
+    gap: 10px;
   }
 }
-
 @media (max-width: 480px) {
-  .chart-canva.ageChartContainer,
-  .chart-canva.genderChartContainer {
-    height: 200px;  
+  .chart-canva .ageChartContainer,
+  .chart-canva .genderChartContainer {
+    height: 200px;
     width: 200px;
   }
-
   .chart-canva h2 {
-    font-size: 1em;  
+    font-size: 1em;
   }
-
   .legend {
-    font-size: 0.8rem;  
-    gap: 8px;  
+    font-size: 0.8rem;
+    gap: 8px;
   }
 }
