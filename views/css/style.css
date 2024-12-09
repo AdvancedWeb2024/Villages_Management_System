@@ -15,6 +15,7 @@ body {
   border-radius: 8px;
   padding: 8px 16px;
   transition-duration: 0.4s;
+  margin-left: 1%;
 }
 .button:hover,
 .mybut:hover {

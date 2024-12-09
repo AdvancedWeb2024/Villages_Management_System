@@ -13,6 +13,7 @@
   top: 0;
   left: 0;
   bottom: 0;
+  z-index: 10000;
 }
 .sidebar .top {
   color: aliceblue;
@@ -75,7 +76,7 @@
   height: 50px;
   background-color: #2E3047;
   border-radius: 50%;
-  z-index: 10001;
+  z-index: 10000;
   cursor: pointer;
   justify-content: center;
   align-items: center;
