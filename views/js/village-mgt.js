@@ -130,7 +130,6 @@ function renderPage() {
      cityListContainer.appendChild(villageItem);
    
   });
-  initializeAddVillage(); // Call the function to bind event listeners
   initializeUpdateVillage();
   initializeUpdateDemographicData();
   initializeViewData();
@@ -152,6 +151,9 @@ nextButton.addEventListener("click", () => {
   pageController.incrementCurrentPage();
   renderPage();
 });
+
+initializeAddVillage(); // Call the function to bind event listeners
+
 
 // Initial render
 renderPage();

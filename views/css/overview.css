@@ -1,15 +1,9 @@
 .top-head {
-<<<<<<< HEAD
-  font-weight: bolder;
-=======
   font-weight: bold;
->>>>>>> origin/Asmaa
   font-size: 2rem;
   color: aliceblue;
   margin: 0;
 }
-<<<<<<< HEAD
-=======
 h2.top-head {
   font-size: 1.8rem;
   font-weight: bold;
@@ -17,16 +11,11 @@ h2.top-head {
   margin-bottom: 20px;
   margin-left: 1%;
 }
->>>>>>> origin/Asmaa
 .statistic {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-<<<<<<< HEAD
-  margin-bottom: 20px;
-=======
   margin-bottom: 10px;
->>>>>>> origin/Asmaa
 }
 .st-item {
   background-color: #1f2937;
@@ -52,11 +41,7 @@ h2.top-head {
   margin: 16px;
   border-radius: 10px;
   flex: 1;
-<<<<<<< HEAD
-  min-width: 400px;
-=======
   min-width: 500px;
->>>>>>> origin/Asmaa
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,33 +55,17 @@ h2.top-head {
   text-align: center;
   padding-bottom: 8px;
 }
-<<<<<<< HEAD
-.chart-canva.ageChartContainer,
-.chart-canva.genderChartContainer {
-  padding: 30px;
-  height: 450px;
-  width: 450px;
-=======
 .chart-canva .ageChartContainer,
 .chart-canva .genderChartContainer {
   padding: 30px;
   height: 500px;
   width: 500px;
->>>>>>> origin/Asmaa
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   margin-bottom: 16px;
 }
-<<<<<<< HEAD
-.chart-canva.populationChartContainer {
-  background-color: #374151;
-}
-canvas {
-  width: 100% !important;
-  height: 100% !important;
-=======
 .chart-canva .populationChartContainer {
   background-color: #374151;
   height: 400px;
@@ -104,7 +73,6 @@ canvas {
 .chart-canva canvas {
   width: 100% !important;
   max-height: 500px;
->>>>>>> origin/Asmaa
   display: block;
 }
 .legend {
@@ -132,8 +100,6 @@ canvas {
   border: 2px solid black;
   outline: 2px solid white;
   box-sizing: border-box;
-<<<<<<< HEAD
-=======
  
 }
 @media (max-width: 1200px) {
@@ -177,5 +143,4 @@ canvas {
     font-size: 0.8rem;
     gap: 8px;
   }
->>>>>>> origin/Asmaa
 }
