@@ -23,9 +23,15 @@
 }
 input[type="text"] {
   padding: 10px;
+<<<<<<< HEAD
   width: calc(100% - (16px * 2));
   border-radius: 8px;
   border-color: transparent;
+=======
+  width: calc(100% - (13px * 2));
+  border-radius: 8px;
+  border: #4B5563 solid 1px;
+>>>>>>> origin/Asmaa
   background-color: #374151;
   color: #717a88;
 }
@@ -85,9 +91,24 @@ input[type="text"] {
 }
 .button-cont {
   background-color: #718096;
+<<<<<<< HEAD
   margin: 10px;
+=======
+  margin: 3px;
+  padding: auto 20px;
+>>>>>>> origin/Asmaa
 }
 .village-list {
   display: flex;
   flex-direction: column;
 }
+<<<<<<< HEAD
+=======
+
+#search-bar::placeholder {
+  color: #9CA3AF;
+  font-weight: 500;
+  
+}
+
+>>>>>>> origin/Asmaa

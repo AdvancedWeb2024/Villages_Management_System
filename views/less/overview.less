@@ -1,112 +1,193 @@
-@primary-bg: #1f2937;
-@secondary-bg: #374151;
-@text-color: aliceblue;
-@border-color: black;
-@outline-color: white;
+// Variables
+@primary-color: aliceblue;
+@bg-color: #1f2937;
+@secondary-bg-color: #374151;
+@card-padding: 16px;
+@border-radius: 8px;
+@font-weight-bold: bold;
+@chart-container-size: 500px;
+@legend-gap: 20px;
+@legend-font-size: 1rem;
+@small-screen-font-size: 1.1em;
+@medium-screen-font-size: 1.3em;
 
+// Typography
+@font-size-top-head: 2rem;
+@font-size-h2-top-head: 1.8rem;
+@font-size-chart-header: 1.5em;
+@font-size-small: 1rem;
+@font-size-xs: 0.9rem;
+@font-size-xxs: 0.8rem;
+
+// Base Styles
 .top-head {
-    font-weight: bolder;
-    font-size: 2rem;
-    color: @text-color;
-    margin: 0;
+  font-weight: @font-weight-bold;
+  font-size: @font-size-top-head;
+  color: @primary-color;
+  margin: 0;
 }
 
+h2.top-head {
+  font-size: @font-size-h2-top-head;
+  font-weight: @font-weight-bold;
+  color: @primary-color;
+  margin-bottom: 20px;
+  margin-left: 1%;
+}
+
+// Statistic Section
 .statistic {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .st-item {
-    background-color: @primary-bg;
-    color: @text-color;
-    padding: 16px;
-    border-radius: 8px;
-    font-weight: bold;
-    flex: 1;
-    margin: 10px;
-    min-width: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  background-color: @bg-color;
+  color: @primary-color;
+  padding: @card-padding;
+  border-radius: @border-radius;
+  font-weight: @font-weight-bold;
+  flex: 1;
+  margin: 10px;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 
-    p {
-        margin: 5px;
-    }
+  p {
+    margin: 5px;
+  }
 }
 
+// Chart Container Styles
 .chart-canva {
-    background-color: @primary-bg;
-    padding: 16px;
-    margin: 16px;
-    border-radius: 10px;
-    flex: 1;
-    min-width: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  background-color: @bg-color;
+  padding: @card-padding;
+  margin: 16px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: @chart-container-size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+
+  h2 {
+    color: @primary-color;
+    margin: 0;
+    font-size: @font-size-chart-header;
     text-align: center;
+    padding-bottom: 8px;
+  }
 
-    h2 {
-        color: @text-color;
-        margin: 0;
-        font-size: 1.5em;
-        text-align: center;
-        padding-bottom: 8px;
-    }
-
-    &.ageChartContainer,
-    &.genderChartContainer {
-        padding: 30px;
-        height: 450px;
-        width: 450px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        margin-bottom: 16px;
-    }
-
-    &.populationChartContainer {
-        background-color: @secondary-bg;
-    }
-}
-
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
-}
-
-.legend {
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
-    gap: 20px;
-}
-
-.map-container {
-    background-color: @secondary-bg;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    width: 95%;
-    max-width: 1200px;
+  .ageChartContainer,
+  .genderChartContainer {
+    padding: 30px;
+    height: @chart-container-size;
+    width: @chart-container-size;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    margin-bottom: 16px;
+  }
 
-    #map {
-        height: 350px;
-        width: 100%;
-        border-radius: 10px;
-        border: 2px solid @border-color;
-        outline: 2px solid @outline-color;
-        box-sizing: border-box;
-    }
+  .populationChartContainer {
+    background-color: @secondary-bg-color;
+    height: 400px;
+  }
+
+  canvas {
+    width: 100% !important;
+    max-height: 500px;
+    display: block;
+  }
+}
+
+// Legend Styles
+.legend {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  gap: @legend-gap;
+}
+
+// Map Container Styles
+.map-container {
+  background-color: @secondary-bg-color;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  width: 95%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #map {
+    height: 350px;
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid black;
+    outline: 2px solid white;
+    box-sizing: border-box;
+  }
+}
+
+// Media Queries for Responsiveness
+@media (max-width: 1200px) {
+  .chart-canva .ageChartContainer,
+  .chart-canva .genderChartContainer {
+    height: 350px;
+    width: 350px;
+  }
+
+  .chart-canva h2 {
+    font-size: @medium-screen-font-size;
+  }
+
+  .legend {
+    font-size: @font-size-small;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-canva .ageChartContainer,
+  .chart-canva .genderChartContainer {
+    height: 250px;
+    width: 250px;
+  }
+
+  .chart-canva h2 {
+    font-size: @small-screen-font-size;
+  }
+
+  .legend {
+    font-size: @font-size-xs;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-canva .ageChartContainer,
+  .chart-canva .genderChartContainer {
+    height: 200px;
+    width: 200px;
+  }
+
+  .chart-canva h2 {
+    font-size: 1em;
+  }
+
+  .legend {
+    font-size: @font-size-xxs;
+    gap: 8px;
+  }
 }

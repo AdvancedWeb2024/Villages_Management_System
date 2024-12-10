@@ -12,7 +12,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+<<<<<<< HEAD
   z-index: 10000;
+=======
+  z-index: 1000;
+>>>>>>> origin/Asmaa
 }
 .form-container {
   max-width: 450px;
