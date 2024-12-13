@@ -72,20 +72,22 @@ function addVillage(form){
   }
 function updateVillage(form, villageToUpdate){
     // fetch updated data from the form
+    const image=form.querySelector("input[name='image']").files[0] ;
     const updatedVillage = {
       name: form.querySelector("input[name='villageName']").value,
       region: form.querySelector("input[name='region']").value,
       landArea: parseFloat(form.querySelector("input[name='landArea']").value),
       latitude: parseFloat(form.querySelector("input[name='latitude']").value),
       longitude: parseFloat(form.querySelector("input[name='longitude']").value),
-      image: form.querySelector("input[name='image']").files[0], // Image is optional
+      image: image? URL.createObjectURL(image) : villageToUpdate.image, // Image is optional
       categories:villageToUpdate.categories
       
     };
  // Update the defaultCities array
-  const index = defaultCities.findIndex(city => city.name === villageName);
+  const index = defaultCities.findIndex(city => city.name === villageToUpdate.name);
   if (index !== -1) {
      defaultCities[index] = { ...defaultCities[index], ...updatedVillage };
+     cities = [...defaultCities];
 
   }
 }
@@ -112,7 +114,7 @@ updateButtons.forEach((button) => {
 
           updateVillage(form, villageToUpdate);
           // Show success message
-          successMsg();
+          successMsg('Updated successfully');
 
           // Re-render the village list (or any UI displaying the villages)
           renderPage();
@@ -131,10 +133,25 @@ updateButtons.forEach((button) => {
 });
 }
 
+function formatAgeDistribution(ageDistribution) {
+  return Object.entries(ageDistribution)
+      .map(([range, percentage]) => `${range}: ${percentage}`)
+      .join(", ");
+}
+
+function parseAgeDistribution(formattedString) {
+  const ageDistribution = {};
+  formattedString.split(", ").forEach(part => {
+      const [range, percentage] = part.split(": ");
+      ageDistribution[range] = percentage;
+  });
+  return ageDistribution;
+}
+
 function setUpdateFormDemg(form, DemographicToUpdate) {
   // Set values based on the village data
   form.querySelector("input[name='populationSize']").value = DemographicToUpdate.populationSize || "";
-  form.querySelector("input[name='ageDistribution']").value = DemographicToUpdate.ageDistribution || "";
+  form.querySelector("input[name='ageDistribution']").value = formatAgeDistribution(DemographicToUpdate.ageDistribution) || "";
   form.querySelector("input[name='genderRatios']").value = DemographicToUpdate.genderRatios || "";
   form.querySelector("input[name='growthRate']").value = DemographicToUpdate.growthRate || "";
 }
@@ -149,17 +166,18 @@ function updateDemographic(form, villageName) {
     return 0; // Return 0 for failure
   }
 
+
   // Fetch updated data from the form
   const updatedVillageDemo = {
     villageName,
     populationSize: form.querySelector("input[name='populationSize']").value,
-    ageDistribution,
+    ageDistribution: parseAgeDistribution(ageDistribution),
     genderRatios,
     growthRate: form.querySelector("input[name='growthRate']").value, // Fixed growthRate assignment
   };
 
   // Update the array
-  const index = demographicData.findIndex(city => city.name === villageName);
+  const index = demographicData.findIndex(city => city.villageName  === villageName);
   if (index !== -1) {
     demographicData[index] = { ...demographicData[index], ...updatedVillageDemo };
   } else {

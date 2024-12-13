@@ -16,7 +16,6 @@ let defaultCities = [
   { name: "Tubas - West Bank", image: "../../images/tubas.jpg", region: "West Bank", landArea: 25.0, latitude: 32.320, longitude: 35.369, category: "City" }
 ];
 
-
   let imagesData=[{ name: "Jabalia-Gaza Strip",image:"../../images/jabalia.jpg",discreption:"jabalia ...."},
     { name: "Beit Lahia - Gaza Strip",image:"../../images/jabalia.jpg",discreption:"Beit Lahia ...." },
     { name: "Shejaiya - Gaza Strip",image:"../../images/jabalia.jpg",discreption:"Shejaiya ...." },

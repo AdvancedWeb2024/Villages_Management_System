@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then((html) => {
                 mainContent.innerHTML = html;
-
                 const cssLink = document.getElementById("section-css");
                 if (cssLink) cssLink.remove();
 

@@ -31,7 +31,6 @@
   text-decoration: none;
   color: #9CA3AF;
   padding: 16px;
-
 }
 .sidebar .menu li a:hover:not(.active) {
   background-color: #2D3748;
