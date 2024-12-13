@@ -3,8 +3,8 @@ import React from 'react';
 function Overview() {
   return (
     <div>
-      <h2>Overview Page</h2>
-      {/* Overview content */}
+      <h1>Overview</h1>
+      <p>Welcome to the Overview page.</p>
     </div>
   );
 }
