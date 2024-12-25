@@ -41,11 +41,11 @@ function App() {
   };
 
   return (
+   
     <Router>
-      <div className="app">
         {/* Pass role to Sidebar to conditionally render menu items */}
         {isAuthenticated && <Sidebar role={role} onLogout={handleLogout} />}
-        <div className="content-wrapper">
+        <div className="main">
           <Routes>
             {/* Public Routes */}
             <Route
@@ -89,8 +89,8 @@ function App() {
             <Route path="/" element={<Navigate to={getDefaultRoute()} />} />
           </Routes>
         </div>
-      </div>
     </Router>
+   
   );
 }
 
