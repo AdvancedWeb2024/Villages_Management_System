@@ -1,74 +1,93 @@
 import React, { useState ,useEffect} from 'react';
+import { request } from 'graphql-request';  // GraphQL request library
 import "../styles/village-mgt.css";
 import ViewVillageOverlay  from './ViewVillageOverlay';
 import UpdateVillageOverlay from './UpdateVillageOverlay';
 import AddDemoOverlay from './AddDemoOverlay';
-import AddImageOverlay from './AddVillageOverlay';
-let defaultCities = [
-  { name: "Jabalia-Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 15.5, latitude: 31.528, longitude: 34.464, category: "Urban" },
-  { name: "Beit Lahia - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 18.2, latitude: 31.588, longitude: 34.529, category: "Urban" },
-  { name: "Shejaiya - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 10.3, latitude: 31.529, longitude: 34.477, category: "Urban" },
-  { name: "Rafah - Gaza Strip", image: "../../images/jabalia.jpg", region: "Gaza Strip", landArea: 22.1, latitude: 31.276, longitude: 34.258, category: "Urban" },
-  { name: "Hebron - West Bank", image: "../../images/hebron.jpg", region: "West Bank", landArea: 60.2, latitude: 31.531, longitude: 35.089, category: "City" },
-  { name: "Quds - West Bank", image: "../../images/quds.jpg", region: "West Bank", landArea: 48.6, latitude: 31.768, longitude: 35.213, category: "City" },
-  { name: "Nablus - West Bank", image: "../../images/nablus.jpg", region: "West Bank", landArea: 45.8, latitude: 32.221, longitude: 35.262, category: "City" },
-  { name: "Jenin - West Bank", image: "../../images/jenin.jpg", region: "West Bank", landArea: 37.3, latitude: 32.459, longitude: 35.300, category: "City" },
-  { name: "Tulkarm - West Bank", image: "../../images/tulkarm.jpg", region: "West Bank", landArea: 28.0, latitude: 32.311, longitude: 35.021, category: "City" },
-  { name: "Qalqilya - West Bank", image: "../../images/qalqilya.jpg", region: "West Bank", landArea: 23.0, latitude: 32.189, longitude: 34.970, category: "City" },
-  { name: "Bethlehem - West Bank", image: "../../images/bethlehem.jpg", region: "West Bank", landArea: 27.4, latitude: 31.705, longitude: 35.202, category: "City" },
-  { name: "Ramallah - West Bank", image: "../../images/ramallah.jpg", region: "West Bank", landArea: 16.3, latitude: 31.899, longitude: 35.204, category: "City" },
-  { name: "Jericho - West Bank", image: "../../images/jericho.jpg", region: "West Bank", landArea: 58.7, latitude: 31.866, longitude: 35.459, category: "City" },
-  { name: "Salfit - West Bank", image: "../../images/salfit.jpg", region: "West Bank", landArea: 23.5, latitude: 32.083, longitude: 35.183, category: "City" },
-  { name: "Tubas - West Bank", image: "../../images/tubas.jpg", region: "West Bank", landArea: 25.0, latitude: 32.320, longitude: 35.369, category: "City" }
-]
-
-
-function pageCounter(currentPage,setCurrentPage) {
-  const itemsPerPage = 5;
-  let startIndex = 0;
-
-  return {
-    getStartIndex: () => {
-      startIndex = (currentPage - 1) * itemsPerPage;
-      return startIndex;
-    },
-    getEndIndex: (citiesLength) => Math.min(startIndex + itemsPerPage, citiesLength),
-    incrementCurrentPage: () => setCurrentPage(currentPage+1),
-    decrementCurrentPage: () => setCurrentPage(currentPage-1),
-    getCurrentPage: () => currentPage
-  };
-}
+import AddVillageOverlay from './AddVillageOverlay';
 
 function VillageMgt() {
   const [currentCities, setCurrentCities] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(0);
   const [cities, setCities] = useState([]);
+  const [defaultCities, setDefaultCities] = useState([]);
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
-  const [shViewOverlay, setShViewOverlay] = useState(false);
-  const [shUpdateOverlay, setShUpdateOverlay] = useState(false);
-  const [shAddDemoOverlay, setShAddDemoOverlay] = useState(false);
-  const [shAddVillageOverlay, setShAddVillageOverlay] = useState(false);
-  const pageController = pageCounter(currentPage, setCurrentPage);
   const [dropdownSize, setDropdownSize] = useState(1); // State to manage size of sort select
   const [selectedCity, setSelectedCity] = useState(null);
+  const [overlay, setOverlay] = useState(null);
+
+  const endpoint = 'http://localhost:4000/graphql';  // Replace with your backend URL
+
+  const QUERIES = {
+    FETCH_VILLAGES: `
+      query {
+        villages {
+          name
+          image
+          region
+          landArea
+          latitude
+          longitude
+          category
+        }
+      }
+    `,
+    DELETE_VILLAGE: `
+      mutation($name: String!) {
+        deleteVillage(name: $name) {
+          name
+        }
+      }
+    `,
+  };
+  
+  const fetchVillages = async () => {
+    try {
+      const response = await request(endpoint, QUERIES.FETCH_VILLAGES);
+      setCities(response.villages);
+      setDefaultCities(response.villages);
+    } catch (error) {
+      console.error("Error fetching villages:", error);
+    }
+  };
+  
+  const handleDelete = async (name) => {
+    try {
+      const data = await request(endpoint, QUERIES.DELETE_VILLAGE, { name });
+      console.log("Deleted Village:", data); 
+      fetchVillages();
+    } catch (error) {
+      console.error('Error deleting village:', error);
+    }
+  };
 
 
   useEffect(() => {
-    setCities(defaultCities);
-  }, []);
+    fetchVillages();
+
+  },[]);
 
   useEffect(() => {
-    setStartIndex(pageController.getStartIndex());
-    setEndIndex(pageController.getEndIndex(cities.length));
+    const itemsPerPage = 5;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, cities.length);
+  
     setCurrentCities(cities.slice(startIndex, endIndex));
-    setIsPrevDisabled(pageController.getCurrentPage() === 1);
+    setIsPrevDisabled(currentPage === 1);
     setIsNextDisabled(endIndex >= cities.length);
-  }, [currentPage, startIndex, endIndex, cities.length,cities]);
+  }, [currentPage, cities]);
 
+  
+  const handleOpenOverlay = (type, city) => {
+    setOverlay({ type, city });
+  };
 
+  const handleCloseOverlay = () => {
+    setOverlay(null);
+  };
+
+  
   const handleClick = () => {
     setDropdownSize(2); // Expand the dropdown
   };
@@ -106,55 +125,32 @@ function VillageMgt() {
     }
   };
 
-  const handleCloseOverlay = () => {
-    setShViewOverlay(false); // Close overlay
-    setShUpdateOverlay(false);
-    setShAddDemoOverlay(false);
-    setShAddVillageOverlay(false);
-
-  };
 
   const handleView=(villageName)=>{
-    setShViewOverlay(true);
     setSelectedCity(defaultCities.find(city => city.name === villageName));
+    handleOpenOverlay("view");
   }
-  const handleUpdateVlg=()=>{
-    setShUpdateOverlay(true);
+  const handleUpdateVillage=(villageName)=>{
+    setSelectedCity(defaultCities.find(city => city.name === villageName));
+    handleOpenOverlay("updateVlg");
+
   }
 
-  const handleDelete=(villageName)=>{
-    const villageIndex = defaultCities.findIndex(city => city.name === villageName);
-    if (villageIndex === -1) {
-      console.error("Village not found:", villageName);
-      return;
-    }
-    try {
-      defaultCities.splice(villageIndex, 1);
-    setCities([...defaultCities]);
-    } catch (error) {
-      console.error("Error deleting village:", error);
-    }
-  }
 
-  const handleUpdateDem=()=>{
-    setShAddDemoOverlay(true);
-  }
-  const handleAddVillage=()=>{
-    setShAddVillageOverlay(true);
-  }
+
   
   return (
     <div className="village-mgt">
-      {shViewOverlay && <ViewVillageOverlay onClose={handleCloseOverlay} city={selectedCity}/>}
-      {shUpdateOverlay && <UpdateVillageOverlay onClose={handleCloseOverlay} />}
-      {shAddDemoOverlay && <AddDemoOverlay onClose={handleCloseOverlay} />}
-      {shAddVillageOverlay && <AddImageOverlay onClose={handleCloseOverlay} />}
-
+      {overlay?.type === "view" && <ViewVillageOverlay onClose={handleCloseOverlay} city={selectedCity}/>}
+      {overlay?.type === "updateVlg" && <UpdateVillageOverlay onClose={handleCloseOverlay} city={selectedCity} fetchVillages ={fetchVillages }/>}
+      {overlay?.type === "addDem" && <AddDemoOverlay onClose={handleCloseOverlay} villageName={overlay.city}  />}
+      {overlay?.type === "addVlg" && <AddVillageOverlay onClose={handleCloseOverlay} fetchVillages ={fetchVillages }  />}
+    
       
       <button 
         className="button" 
         id="showFormBtn"
-        onClick={()=>handleAddVillage()}
+        onClick={()=>handleOpenOverlay("addVlg")}
       >
         Add New Village
       </button>
@@ -188,7 +184,7 @@ function VillageMgt() {
               className="button button-cont"
               id="prev-page"
               disabled={isPrevDisabled}
-              onClick={() => pageController.decrementCurrentPage()}
+              onClick={() => setCurrentPage(currentPage-1)}
             >
               Prev
             </button>
@@ -196,7 +192,7 @@ function VillageMgt() {
               className="button button-cont"
               id="next-page"
               disabled={isNextDisabled}
-              onClick={() => pageController.incrementCurrentPage()}
+              onClick={() => setCurrentPage(currentPage+1)}
             >
               Next
             </button>
@@ -219,7 +215,7 @@ function VillageMgt() {
                   id="updateButton"
                   className="button button-cont"
                   data-village-name={city.name}
-                  onClick={() => handleUpdateVlg(city.name)}
+                  onClick={() => handleUpdateVillage(city.name)}
                 >
                   Update Village
                 </button>
@@ -235,7 +231,7 @@ function VillageMgt() {
                   id="update-demographic-btn"
                   className="button button-cont"
                   data-village-name={city.name}
-                  onClick={() => handleUpdateDem(city.name)}
+                  onClick={() => handleOpenOverlay("addDem",city.name)}
                 >
                   Add Demographic Data
                 </button>

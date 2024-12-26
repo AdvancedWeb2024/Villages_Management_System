@@ -11,7 +11,7 @@ Village.init(
       unique: true,
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     region: {
