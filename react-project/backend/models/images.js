@@ -22,7 +22,7 @@ Image.init(
       onDelete: 'CASCADE', // Optional: Delete images if village is deleted
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     description: {

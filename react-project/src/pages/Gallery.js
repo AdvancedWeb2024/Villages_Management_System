@@ -1,24 +1,64 @@
 import React, { useState, useEffect } from 'react';
+import { request } from 'graphql-request';  // GraphQL request library
 import '../styles/gallery.css';
 import AddImageOverlay from './AddImageOverlay';
 
-
 function Gallery() {
-  const [citiesList, setCitiesList] = useState([
-  { name: "Jabalia-Gaza Strip",image:"/images/jabalia.jpg",discreption:"jabalia ...."},
-    { name: "Beit Lahia - Gaza Strip",image:"/images/jabalia.jpg",discreption:"Beit Lahia ...." },
-    { name: "Shejaiya - Gaza Strip",image:"/images/jabalia.jpg",discreption:"Shejaiya ...." },
-    { name: "Rafah - Gaza Strip" ,image:"/images/jabalia.jpg",discreption:"Rafah ...."},
-    { name: "Hebron - west Bank",image:"/images/jabalia.jpg",discreption:"Hebron ...."},
-    { name: "Quds - west Bank" ,image:"/images/jabalia.jpg", discreption:"Quds ...."},
-  ]);
+  const [villagesList, setVillagesList] = useState([]);
+  const [imagesList, setImagesList] = useState([]);
+
+  const endpoint = 'http://localhost:4000/graphql';  // Replace with your backend URL
+
+  // Fetch villages from GraphQL
+  const fetchVillages = async () => {
+    const endpoint = 'http://localhost:4000/graphql';  // Replace with your backend URL
+    const query = `
+      query {
+        villages {
+          name
+        }
+      }
+    `;
+    try {
+      const response = await request(endpoint, query);
+      console.log('GraphQL response:', response);  // Log the response
+      setVillagesList(response.villages);  // Store response in state
+    } catch (error) {
+      console.error('Error fetching villages:', error);
+    }
+  };
+  
+
+  // Fetch images from GraphQL
+  const fetchImages = async () => {
+    const query = `
+      query {
+        images {
+          name
+          image
+          description
+        }
+      }
+    `;
+    try {
+      const data = await request(endpoint, query);  // Send query to backend
+      setImagesList(data.images);  // Store images in state
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchVillages();  // Fetch villages on component mount
+    fetchImages();    // Fetch images on component mount
+  }, []);
 
   useEffect(() => {
     const userRole = sessionStorage.getItem("role"); // Get user role from sessionStorage
-    const addNewImage=document.getElementById("add-image")
-  if (userRole !== "admin") {
-    addNewImage.style.display = "none"; // Hide the button for non-admin users
-  }
+    const addNewImage = document.getElementById("add-image");
+    if (userRole !== "admin") {
+      addNewImage.style.display = "none"; // Hide the button for non-admin users
+    }
   }, []);
 
   const [showOverlay, setShowOverlay] = useState(false); // State to control overlay visibility
@@ -31,23 +71,19 @@ function Gallery() {
     setShowOverlay(false); // Close overlay
   };
 
-  const handleAddImageList = (city) => {
-    setCitiesList([...citiesList, city]); // Ensure you're adding the new city to the existing list
-  };
-  
 
   return (
     <div className="gallery">
       <button className="mybut" id="add-image" onClick={handleAddImageClick}>Add New Image</button>
-      {showOverlay && <AddImageOverlay onClose={handleCloseOverlay} setCiitesList={handleAddImageList}  />}
+      {showOverlay && <AddImageOverlay onClose={handleCloseOverlay} imagesList={imagesList} setImagesList={setImagesList} villagesList={villagesList} />}
       <div className="image-list" id="image-list">
-        {citiesList.map((city, index) => (
+        {imagesList.map((image, index) => (
           <div className="gallery-item" key={index}>
-            <img src={city.image} alt={city.name} /> 
+            <img src={image.image} alt={image.name} />
             <div className="desc">
-              <b>{city.name}</b> 
+              <b>{image.name}</b>
               <br />
-              {city.discreption} 
+              {image.description}
             </div>
           </div>
         ))}

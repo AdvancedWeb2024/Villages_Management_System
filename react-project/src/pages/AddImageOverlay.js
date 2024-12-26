@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
+import { request } from 'graphql-request';
 import '../styles/styles-CURD.css';
 
-let defaultCities = [
-  { name: "Jabalia-Gaza Strip", image: "/images/jabalia.jpg", region: "Gaza Strip", landArea: 15.5, latitude: 31.528, longitude: 34.464, category: "Urban" },
-  // Other cities...
-];
-
-function AddImageOverlay({ onClose, setCiitesList }) {
-  const [villageName, setVillageName] = useState('');
+function AddImageOverlay({ onClose, imagesList,setImagesList,villagesList }) {
+  const [name, setName] = useState('');
   const [discreption, setDiscreption] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // For preview
+  const endpoint = 'http://localhost:4000/graphql'; 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const imagePath = imagePreview; // Use the preview as the image path
-    const newPost = { name:villageName, discreption, image: imagePath };
-    setCiitesList(newPost);  // Update the cities list
-    console.log(villageName);
-  };
+  const addImageMutation = `
+  mutation($name: String!, $image: String!, $description: String!) {
+    addImage(name: $name, image: $image, description: $description) {
+      name
+      image
+      description
+    }
+  }
+`;
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const imagePath = imagePreview; // Use the preview as the image path
+  try {
+    console.log('Payload:', { name, image: imagePath, description: discreption });
+
+    const data = await request(endpoint, addImageMutation, {
+      name,
+      image: imagePath, // Match mutation's variable
+      description: discreption, // Correct spelling
+    });
+    setImagesList([...imagesList, data.addImage]); // Update state with the new image
+    setName('');
+    setImagePreview('');
+    setDiscreption('');
+  } catch (error) {
+    console.error('Error adding image:', error.response || error.message);
+  }
+};
+
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -41,17 +62,17 @@ function AddImageOverlay({ onClose, setCiitesList }) {
         <h2>Add New Village</h2>
         <form id="addImageForm" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="villageName">Village Name:</label>
+            <label htmlFor="name">Village Name:</label>
             <select
-              id="villageName"
-              name="villageName"
+              id="name"
+              name="name"
               style={{ width: '100%' }}
               required
-              value={villageName}
-              onChange={(e) => setVillageName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             >
               <option value="" disabled>Select a City</option>
-              {defaultCities.map((city, index) => (
+              {villagesList.map((city, index) => (
                 <option key={index} value={city.name}>
                   {city.name}
                 </option>
@@ -85,7 +106,7 @@ function AddImageOverlay({ onClose, setCiitesList }) {
               <img src={imagePreview} alt="Image Preview" className="image-preview" />
           )}
 
-          <button type="submit" className="submit_btn">Add Image</button>
+        <button type="submit" className="submit_btn">Add Image</button>
         </form>
       </div>
     </div>
