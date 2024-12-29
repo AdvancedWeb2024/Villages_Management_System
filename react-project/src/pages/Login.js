@@ -7,32 +7,48 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-    const admins = [
-      { username: 'admin1', password: 'adminpassword1', role: 'admin' },
-      { username: 'admin2', password: 'adminpassword2', role: 'admin' },
-    ];
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const query = `
+      query AuthenticateUser($username: String!, $password: String!) {
+        authenticateUser(username: $username, password: $password) {
+          username
+          role
+          activeStatus
+        }
+      }
+    `;
 
-    const admin = admins.find((a) => a.username === username && a.password === password);
-    if (admin) {
-      sessionStorage.setItem('username', admin.username);
-      sessionStorage.setItem('role', admin.role);
-      onLogin(admin.role);
-      navigate('/overview');
-    } else {
-      const user = users.find((u) => u.username === username && u.password === password);
-      if (user) {
+    const variables = { username, password };
+
+    try {
+      const response = await fetch('http://localhost:4000/graphql', { // Update with your GraphQL server URL
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query, variables }),
+      });
+
+      const result = await response.json();
+
+      if (result.errors) {
+        alert(result.errors[0].message);
+        return;
+      }
+
+      const user = result.data.authenticateUser;
+
+      if (user && user.activeStatus) {
         sessionStorage.setItem('username', user.username);
-        sessionStorage.setItem('role', 'user');
-        onLogin('user');
+        sessionStorage.setItem('role', user.role);
+        onLogin(user.role);
+
         navigate('/overview');
       } else {
-        alert('Invalid username or password!');
+        alert('Account is inactive. Please contact support.');
       }
+    } catch (error) {
+      alert('Error logging in: ' + error.message);
     }
   };
 
