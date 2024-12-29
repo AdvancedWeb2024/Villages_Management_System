@@ -1,26 +1,76 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { request } from 'graphql-request'; 
+import { useNavigate } from 'react-router-dom'; 
+import '../styles/styles_in_up.css'; 
 
 function Signup() {
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  
+  const endpoint = 'http://localhost:4000/graphql';
 
-  const handleSubmit = (e) => {
+  // Handle sign-up form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = users.some((user) => user.username === username);
+    // Validate inputs
+    if (!fullName || !username || !password) {
+      setErrorMessage('All fields are required.');
+      return;
+    }
 
-    if (userExists) {
-      alert('Username already taken. Please choose another one.');
-    } else {
-      const newUser = { fullName, username, password, role: 'user' };
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      alert('Sign-up successful! You can now log in.');
-      navigate('/login');
+    if (password.length < 8) {
+      setErrorMessage('Password must be at least 8 characters long.');
+      return;
+    }
+
+    const passwordStrengthRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordStrengthRegex.test(password)) {
+      setErrorMessage('Password must contain at least one letter and one number.');
+      return;
+    }
+
+    setErrorMessage('');
+    setIsLoading(true);
+
+    // GraphQL mutation query
+    const query = `
+      mutation CreateUser($fullName: String!, $username: String!, $password: String!, $role: String! , $activeStatus: Boolean!) {
+        createUser(fullName: $fullName, username: $username, password: $password, role: $role, activeStatus: $activeStatus) {
+          id
+          fullName
+          username
+          role
+        }
+      }
+    `;
+
+
+    try {
+      const response = await request(endpoint, query, {
+        fullName,
+        username,
+        password,
+        role: 'user',
+        activeStatus: true,
+      });
+      if (response) {
+        alert('Sign-up successful! You can now log in.');
+        navigate('/login'); // Redirect to login page after successful signup
+        setFullName('');
+        setUsername('');
+        setPassword('');
+      }
+    } catch (error) {
+      const errorMessage = error?.response?.errors?.[0]?.message || 'Error signing up. Please try again.';
+      setErrorMessage(errorMessage);
+      console.error('Error signing up:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,8 +111,10 @@ function Signup() {
             required
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={isLoading}>Sign Up</button>
       </form>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {isLoading && <p>Loading...</p>}
       <div className="footer-text">
         <p>Already have an account? <a href="/login">Login</a></p>
       </div>
