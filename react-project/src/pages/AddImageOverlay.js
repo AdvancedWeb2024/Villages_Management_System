@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { request } from 'graphql-request';
 import '../styles/styles-CURD.css';
+import Notification from '../components/Notification';
 
 function AddImageOverlay({ onClose, imagesList,setImagesList,villagesList }) {
   const [name, setName] = useState('');
@@ -8,6 +9,8 @@ function AddImageOverlay({ onClose, imagesList,setImagesList,villagesList }) {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // For preview
   const endpoint = 'http://localhost:4000/graphql'; 
+  const [showSuccess, setShowSuccess] = useState(false);
+
 
   const addImageMutation = `
   mutation($name: String!, $image: String!, $description: String!) {
@@ -34,6 +37,11 @@ const handleSubmit = async (e) => {
     setName('');
     setImagePreview('');
     setDiscreption('');
+    setShowSuccess(true);
+    setTimeout(()=>{
+      onClose();
+    },4000)
+  
   } catch (error) {
     console.error('Error adding image:', error.response || error.message);
   }
@@ -108,6 +116,9 @@ const handleSubmit = async (e) => {
 
         <button type="submit" className="submit_btn">Add Image</button>
         </form>
+
+        {showSuccess && <Notification msg="Gallery post added successfully!"/>}
+
       </div>
     </div>
   );

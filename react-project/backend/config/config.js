@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 require('dotenv').config();
 const sequelize = new Sequelize("villages management system", 
-  "root",'', {
+  "root","123456", {
   host: "localhost",
   port: 3306,
   dialect: "mysql",

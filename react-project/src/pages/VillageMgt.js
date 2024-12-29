@@ -201,7 +201,7 @@ function VillageMgt() {
         <div className="village-list" id="village-list">
           {currentCities.map((city, index) => (
             <div className="village-list-item" key={index}>
-              <p> {city.name} </p>
+              <p> {city.name} - {city.region} </p>
               <div>
                 <button
                   id="view-btn"

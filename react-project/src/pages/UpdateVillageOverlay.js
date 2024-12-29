@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { request } from 'graphql-request';
 import '../styles/styles-CURD.css';
-
+import Notification from '../components/Notification';
 
 function UpdateVillageOverlay({onClose,city,fetchVillages}) {
 
@@ -13,6 +13,8 @@ function UpdateVillageOverlay({onClose,city,fetchVillages}) {
       const [category, setCategory] = useState(city.category);
       const [imagePreview, setImagePreview] = useState(null); 
       const [image, setImage] = useState(null);
+      const [showSuccess, setShowSuccess] = useState(false);
+      
  
     const endpoint = 'http://localhost:4000/graphql'; 
 
@@ -62,7 +64,10 @@ function UpdateVillageOverlay({onClose,city,fetchVillages}) {
           // Here you can handle the success or reset the form if needed
           console.log('Village Added:', data.addVillage);
           fetchVillages();
-          onClose();  // Close the overlay after successful submission
+          setShowSuccess(true);
+          setTimeout(()=>{
+            onClose();
+          },2000);
     
         } catch (error) {
           console.error('Error adding village:', error);
@@ -144,6 +149,7 @@ function UpdateVillageOverlay({onClose,city,fetchVillages}) {
                 </div>
                 <button type="submit" className="submit_btn">Update Village</button>
             </form>
+            {showSuccess && <Notification msg="Village Updated successfully!"/>}
         </div>
     </div>
   );
