@@ -46,6 +46,7 @@
   width: calc(100% - (5px * 2));
   border-radius: 10px;
   margin: 5px 0;
+  overflow-y: auto;
 }
 .chat textarea {
   width: calc(100% - (15px * 2));
