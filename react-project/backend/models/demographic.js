@@ -26,7 +26,7 @@ Demographic.init(
       allowNull: false,
     },
     ageDistribution: {
-      type: DataTypes.JSON, // Store age distribution as JSON
+      type: DataTypes.STRING, // Store age distribution as JSON
       allowNull: false,
     },
     genderRatios: {

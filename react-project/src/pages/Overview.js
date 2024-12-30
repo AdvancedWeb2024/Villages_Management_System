@@ -61,62 +61,103 @@ const OverviewPage = () => {
     async function loadData() {
       const villageData = await fetchData(GET_VILLAGES);
       const demographicData = await fetchData(GET_DEMOGRAPHICS);
-
+    
       setNumVillage(villageData.villages.length);
-      setNumUrban(villageData.villages.filter(village => village.category === "Urban").length);
-      setPopulationSize(demographicData.demographics.reduce((total, village) => total + parseInt(village.populationSize), 0));
-
-      const totalLandArea = villageData.villages.reduce((total, village) => total + village.landArea, 0);
+      setNumUrban(
+        villageData.villages.filter(
+          (village) => village.category.toLowerCase() === "urban".toLowerCase()
+        ).length
+      );
+      
+      setPopulationSize(
+        demographicData.demographics.reduce(
+          (total, village) => total + parseInt(village.populationSize),
+          0
+        )
+      );
+    
+      const totalLandArea = villageData.villages.reduce(
+        (total, village) => total + village.landArea,
+        0
+      );
       setAvgLandArea(totalLandArea / villageData.villages.length);
-
+    
       // Prepare data for charts
-      const ageDistribution = demographicData.demographics.map(village => JSON.parse(village.ageDistribution));
-      const ageValues = ageDistribution.reduce((acc, dist) => {
-        Object.keys(dist).forEach(key => acc[key] = (acc[key] || 0) + parseFloat(dist[key]));
+      const ageDistributionStrings = demographicData.demographics.map(
+        (village) => village.ageDistribution // Keep the raw string
+      );
+    
+      const ageValues = ageDistributionStrings.reduce((acc, distString) => {
+        try {
+          // Ensure the string is properly formatted JSON (add curly braces if missing)
+          const formattedDistString =
+            distString.trim().startsWith("{") && distString.trim().endsWith("}")
+              ? distString
+              : `{${distString}}`;
+    
+          const dist = JSON.parse(formattedDistString); // Parse the fixed string
+          Object.keys(dist).forEach((key) => {
+            acc[key] = (acc[key] || 0) + parseFloat(dist[key]);
+          });
+        } catch (error) {
+          console.error("Failed to parse age distribution:", distString, error);
+        }
         return acc;
       }, {});
-
+    
       const avgAgeValues = Object.keys(ageValues).reduce((acc, key) => {
         acc[key] = (ageValues[key] / demographicData.demographics.length).toFixed(2);
         return acc;
       }, {});
-
+    
       setAgeData(avgAgeValues);
-
-      const genderRatios = demographicData.demographics.map(village => {
-        const match = village.genderRatios.match(/Male: (\d+)%\, Female: (\d+)%/);
+    
+      const genderRatios = demographicData.demographics.map((village) => {
+        const match = village.genderRatios.match(
+          /Male: (\d+)%\, Female: (\d+)%/
+        );
         if (match) {
           return {
             male: parseFloat(match[1]),
-            female: parseFloat(match[2])
+            female: parseFloat(match[2]),
           };
         }
         return { male: 0, female: 0 };
       });
-
-      const totalGenderRatio = genderRatios.reduce((acc, ratio) => {
-        acc.male += ratio.male;
-        acc.female += ratio.female;
-        return acc;
-      }, { male: 0, female: 0 });
-
-      setGenderData([totalGenderRatio.male / demographicData.demographics.length, totalGenderRatio.female / demographicData.demographics.length]);
-
-      setPopulationData(demographicData.demographics.map(village => village.populationSize));
-
+    
+      const totalGenderRatio = genderRatios.reduce(
+        (acc, ratio) => {
+          acc.male += ratio.male;
+          acc.female += ratio.female;
+          return acc;
+        },
+        { male: 0, female: 0 }
+      );
+    
+      setGenderData([
+        totalGenderRatio.male / demographicData.demographics.length,
+        totalGenderRatio.female / demographicData.demographics.length,
+      ]);
+    
+      setPopulationData(
+        demographicData.demographics.map((village) => village.populationSize)
+      );
+    
       // Get village names and coordinates
-      const villageNamesList = villageData.villages.map(village => village.name);
+      const villageNamesList = villageData.villages.map((village) => village.name);
       setVillageNames(villageNamesList);
-      
-      const coordinatesList = villageData.villages.map(village => ({
+    
+      const coordinatesList = villageData.villages.map((village) => ({
         name: village.name,
         lat: parseFloat(village.latitude),
         lon: parseFloat(village.longitude),
       }));
       setVillageCoordinates(coordinatesList);
     }
-
+    
     loadData();
+    
+    
   }, []);
 
   // Data for the charts
