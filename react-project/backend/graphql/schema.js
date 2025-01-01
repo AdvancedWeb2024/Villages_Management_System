@@ -5,10 +5,10 @@ const demographicQueries = require('./queries/demographicQueries');
 const villageMutations = require('./mutations/villageMutations');
 const imageMutations = require('./mutations/imageMutations');
 const demographicMutations = require('./mutations/demographicMutations');
-
-const userQueries = require('./queries/userQueries');
-
+const userQueries = require('./queries/userQueries');1
 const userMutations = require('./mutations/userMutations');
+const messageQueries = require('./queries/messageQueries');
+const messageMutations = require('./mutations/messageMutations');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -16,7 +16,8 @@ const RootQuery = new GraphQLObjectType({
     ...villageQueries,
     ...imageQueries,
     ...userQueries,
-    ...demographicQueries
+    ...demographicQueries,
+    ...messageQueries
   }
 });
 
@@ -26,7 +27,8 @@ const Mutation = new GraphQLObjectType({
     ...villageMutations,
     ...imageMutations,
     ...userMutations,
-    ...demographicMutations
+    ...demographicMutations,
+    ...messageMutations
   }
 });
 

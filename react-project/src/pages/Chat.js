@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import React, { useEffect, useRef, useState } from 'react';
 import '../styles/chat.css';
 import '../styles/style.css';
 import userImage from '../assets/images/user.webp';
-
-const socket = io('http://localhost:4000'); // Connect to the server
+import { request } from 'graphql-request';  // Import GraphQL request library
 
 function Chat() {
   const [activeAdmins, setActiveAdmins] = useState([]);
@@ -12,80 +10,168 @@ function Chat() {
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [sendingMessage, setSendingMessage] = useState(false); // Prevent double sending
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const endpoint = 'http://localhost:4000/graphql';
 
-  useEffect(() => {
-    const fetchAdmins = async () => {
-      const query = `
-        query {
-          getUsersByRole(role: "admin") {
-            fullName
-            activeStatus
-          }
+  const socketRef = useRef(null);
+
+  const messagesEndRef = useRef(null);
+
+// Scroll to bottom when messages change
+useEffect(() => {
+  messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+}, [messages]);
+
+  // Add message function
+  const addMessage = async (senderId, receiverId, message) => {
+    const mutation = `
+      mutation AddMessage($senderId: Int!, $receiverId: Int!, $content: String!) {
+        addMessage(senderId: $senderId, receiverId: $receiverId, content: $content) {
+          id
+          senderId
+          receiverId
+          content
+          timestamp
         }
-      `;
-
-      try {
-        const response = await fetch('http://localhost:4000/graphql', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ query }),
-        });
-
-        const { data } = await response.json();
-
-        if (data && data.getUsersByRole) {
-          const admins = data.getUsersByRole.filter((admin) => admin.activeStatus === true); // Only active admins
-          setActiveAdmins(admins);
+      }
+    `;
+    try {
+      const response = await request(endpoint, mutation, {
+        senderId,
+        receiverId,
+        content: message,
+      });
+  
+      if (response && response.addMessage) {
+        setMessages((prevMessages) => [...prevMessages, response.addMessage]);
+        setNewMessage('');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
+  
+  // Fetch admins function
+  const fetchAdmins = async () => {
+    const query = `
+      query {
+        getUsersByRole(role: "admin") {
+          id
+          fullName
+          activeStatus
         }
-      } catch (error) {
-        console.error('Error fetching admins:', error);
       }
-    };
-
-    fetchAdmins();
-
-    // Listen for incoming messages
-    socket.on('chat_message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-    });
-
-    return () => {
-      socket.off('chat_message'); // Clean up listener on component unmount
-    };
-  }, []);
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleAdminClick = (admin) => {
-    setSelectedAdmin(admin);
-  };
-
-  const handleSendMessage = async () => {
-    if (newMessage.trim() && !sendingMessage) {
-      setSendingMessage(true); // Set sending flag to true to prevent multiple sends
-      const messageData = {
-        sender: 'User', // Replace with actual user data
-        content: newMessage,
-        timestamp: new Date().toLocaleTimeString(),
-      };
-
-      try {
-        await socket.emit('chat_message', messageData); // Send message to server
-        setMessages((prevMessages) => [...prevMessages, messageData]); // Add message to chat
-        setNewMessage(''); // Clear input field
-      } catch (error) {
-        console.error('Error sending message:', error);
-      }
-
-      setSendingMessage(false); // Reset sending flag after message is sent
+    `;
+    try {
+      const response = await request(endpoint, query);
+      setActiveAdmins(response.getUsersByRole || []);
+    } catch (error) {
+      console.error('Error fetching admins:', error);
     }
   };
 
+  // Fetch messages function
+  const fetchMessages = async (senderId, receiverId) => {
+    const query = `
+      query GetMessages($senderId: Int!, $receiverId: Int!) {
+        messages(senderId: $senderId, receiverId: $receiverId) {
+          id
+          senderId
+          receiverId
+          content
+          timestamp
+        }
+      }
+    `;
+    try {
+      const response = await request(endpoint, query, { senderId, receiverId });
+      setMessages(response.messages || []);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  // Handle admin click
+  const handleAdminClick = (admin) => {
+    setSelectedAdmin(admin);
+    const userId = parseInt(sessionStorage.getItem('id'), 10); // Assuming user ID is stored in sessionStorage
+    fetchMessages(userId, admin.id);
+  };
+
+  // Handle send message
+  const handleSendMessage = async () => {
+    if (newMessage.trim() && !sendingMessage) {
+      setSendingMessage(true);
+      const senderId = parseInt(sessionStorage.getItem('id'), 10);
+      const receiverId = selectedAdmin.id;
+  
+      // Add message to local state before sending (optimistic update)
+      const newMsg = {
+        type:'chat',
+        senderId,
+        receiverId,
+        content: newMessage,
+        timestamp: new Date().toISOString(),
+      };
+  
+  
+      // Send message via WebSocket (if required)
+      socketRef.current.send(JSON.stringify(newMsg));
+  
+      await addMessage(senderId, receiverId, newMessage); // Send to database
+  
+      setSendingMessage(false);
+      setNewMessage(''); // Clear the input
+    }
+  };
+  
+
+  // WebSocket initialization and message handling
+  useEffect(() => {
+    fetchAdmins();
+  
+    socketRef.current = new WebSocket('ws://localhost:3033');
+    const loggedInUserId = parseInt(sessionStorage.getItem('id'), 10);
+
+  
+    socketRef.current.onopen = () => {
+      console.log('WebSocket connection established.');
+      socketRef.current.send(
+        JSON.stringify({ type: 'register', senderId: loggedInUserId })
+      );
+    };
+    
+  
+    socketRef.current.onerror = (error) => {
+      console.error('WebSocket Error:', error);
+    };
+  
+    socketRef.current.onmessage = (event) => {
+      const receivedMessage = JSON.parse(event.data);
+    
+    
+      // Check if the message is for the logged-in user or their selected admin
+      if (
+        selectedAdmin &&
+        (receivedMessage.senderId === selectedAdmin.id || 
+        (receivedMessage.receiverId === loggedInUserId && receivedMessage.senderId === selectedAdmin.id))
+      ) {
+        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+      }
+    };
+    
+  
+    socketRef.current.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+  
+    return () => {
+      socketRef.current.close();
+    };
+  }, [selectedAdmin]);
+  
+
+  // Filter admins based on search term
   const filteredAdmins = activeAdmins.filter((admin) =>
     admin.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -94,32 +180,22 @@ function Chat() {
     <div className="chat">
       <h2 className="top-head">Chat with Admins</h2>
 
-      {/* Search Bar */}
       <input
         type="text"
-        name="search-bar-chat"
-        id="search-bar-chat"
-        className="search-bar-chat"
         placeholder="Search for an Admin..."
         value={searchTerm}
-        onChange={handleSearchChange}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar-chat"
       />
 
-      {/* Available Admins */}
       <div className="div-block">
         <h3 style={{ color: 'aliceblue' }}>Available Admins</h3>
-        <div className="admins-list" id="admin-container">
+        <div className="admins-list">
           {filteredAdmins.length > 0 ? (
             filteredAdmins.map((admin) => (
-              <div key={admin.fullName} onClick={() => handleAdminClick(admin)} className="admin">
-                <img
-                  src={userImage}
-                  alt="Admin"
-                  className="admin-image"
-                />
-                <p className="user-name" id="adminName">
-                  {admin.fullName}
-                </p>
+              <div key={admin.id} onClick={() => handleAdminClick(admin)} className="admin">
+                <img src={userImage} alt="Admin" className="admin-image" />
+                <p className="user-name">{admin.fullName}</p>
               </div>
             ))
           ) : (
@@ -128,36 +204,32 @@ function Chat() {
         </div>
       </div>
 
-      {/* Chat Block */}
       {selectedAdmin && (
-        <div className="div-block" id="chat-block" style={{ display: 'block' }}>
-          <h3 style={{ color: 'aliceblue' }} id="chat-with">
-            Chat with: {selectedAdmin.fullName}
-          </h3>
+        <div className="div-block">
+          <h3 style={{ color: 'aliceblue' }}>Chat with: {selectedAdmin.fullName}</h3>
           <div className="chatting">
-            {messages.map((msg, index) => (
+            {messages.map((msg) => (
               <div
-                key={index}
-                className={msg.sender === 'User' ? 'sender-message-container' : 'receiver-message-container'}
+                key={`${msg.senderId}-${msg.receiverId}-${msg.timestamp}`} // Unique key for each message
+                className={msg.senderId === parseInt(sessionStorage.getItem('id'), 10) ? 'sender-message-container' : 'receiver-message-container'}
               >
-                <p className={msg.sender === 'User' ? 'sender-name' : 'receiver-name'}>
-                  <strong>{msg.sender}:</strong>
-                </p>
-                <p className={msg.sender === 'User' ? 'sender-msg' : 'receiver-msg'}>
+                <p className={msg.senderId === parseInt(sessionStorage.getItem('id'), 10) ? 'sender-msg' : 'receiver-msg'}>
                   {msg.content}
                 </p>
               </div>
             ))}
           </div>
 
+
           <textarea
-            type="text"
             rows="5"
             placeholder="Type your message..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
-          <button onClick={handleSendMessage} disabled={sendingMessage}>Send</button> {/* Disable button while sending */}
+          <button onClick={handleSendMessage} disabled={sendingMessage}>
+            Send
+          </button>
         </div>
       )}
     </div>

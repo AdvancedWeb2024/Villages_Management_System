@@ -13,6 +13,7 @@ function Login({ onLogin }) {
     const query = `
       query AuthenticateUser($username: String!, $password: String!) {
         authenticateUser(username: $username, password: $password) {
+          id
           username
           role
           activeStatus
@@ -37,9 +38,12 @@ function Login({ onLogin }) {
       }
 
       const user = result.data.authenticateUser;
+      console.log(user);
 
       if (user && user.activeStatus) {
         sessionStorage.setItem('username', user.username);
+        console.log("login ",user.id)
+        sessionStorage.setItem('id', user.id);
         sessionStorage.setItem('role', user.role);
         onLogin(user.role);
 
