@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { GraphQLString, GraphQLBoolean } = require('graphql');
 const UserType = require('../types/userType');
 const { User } = require('../../models/users.js');
@@ -19,12 +20,16 @@ const userMutations = {
             throw new Error('Username already exists');
           }
 
+          // Hash the password before saving the user
+          return bcrypt.hash(args.password, 10); // The number 10 is the salt rounds (you can increase it for more security)
+        })
+        .then(hashedPassword => {
           return User.create({
             fullName: args.fullName,
             username: args.username,
-            password: args.password,
-            role: args.role || 'user',  // Default to 'user' if not provided
-            activeStatus: args.activeStatus !== undefined ? args.activeStatus : true,  // Default to true if not provided
+            password: hashedPassword, // Store the hashed password
+            role: args.role || 'user', // Default to 'user' if not provided
+            activeStatus: args.activeStatus !== undefined ? args.activeStatus : true, // Default to true if not provided
           });
         })
         .then(user => {

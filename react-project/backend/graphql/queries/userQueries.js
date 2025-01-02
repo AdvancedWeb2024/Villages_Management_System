@@ -1,6 +1,8 @@
 const { GraphQLInt, GraphQLList, GraphQLString } = require('graphql');
+const bcrypt = require('bcrypt');
 const UserType = require('../types/userType');
 const { User } = require('../../models/users'); 
+
 const userQueries = {
   // Get User by ID
   getUser: {
@@ -63,16 +65,19 @@ const userQueries = {
     },
     async resolve(parent, args) {
       try {
-        
+        // Find the user by username
         const user = await User.findOne({ where: { username: args.username } });
         if (!user) {
           throw new Error('User not found');
         }
-       
-        if (user.password !== args.password) {
+
+        // Compare the entered password with the hashed password stored in the database
+        const isMatch = await bcrypt.compare(args.password, user.password);
+        if (!isMatch) {
           throw new Error('Invalid credentials');
         }
-        
+
+        // Return the user if authentication is successful
         return user;
       } catch (error) {
         throw new Error('Error authenticating user: ' + error.message);
@@ -80,4 +85,5 @@ const userQueries = {
     },
   },
 };
+
 module.exports = userQueries;
