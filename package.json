@@ -26,10 +26,7 @@
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.0",
     "sequelize": "^6.37.5",
-    "sequelize-cli": "^6.6.2",
-    "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1",
-    "websocket": "^1.0.35"
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

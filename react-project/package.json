@@ -3,51 +3,47 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-   
-    "bcryptjs": "^2.4.3",
-    "chart.js": "^4.4.7",
-    "cors": "^2.8.5",
-    "cra-template": "1.2.0",
-    "express-graphql": "^0.12.0",
-    "graphql": "^16.10.0",
-    "graphql-request": "^7.1.2",
-    "jsonwebtoken": "^9.0.2",
-    "leaflet": "^1.9.4",
-    "mysql2": "^3.12.0",
-    "react": "^18.0.0",
-    "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18.0.0",
-    "react-leaflet": "^5.0.0",
-    "react-router-dom": "^7.0.2",
-    "react-scripts": "^5.0.1",
-    "sequelize": "^6.37.5",
-    "sequelize-cli": "^6.6.2",
-    "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1",
-    "web-vitals": "^4.2.4",
-    "ws": "^8.18.0"
+    "chart.js": "^4.4.7", 
+    "cors": "^2.8.5", 
+    "cra-template": "1.2.0", 
+    "express-graphql": "^0.12.0", 
+    "graphql": "^16.10.0", 
+    "graphql-request": "^7.0.0", 
+    "leaflet": "^1.9.4", 
+    "mysql2": "^3.12.0", 
+    "react": "^18.2.0", 
+    "react-chartjs-2": "^5.2.0", 
+    "react-dom": "^18.2.0", 
+    "react-leaflet": "^4.0.0", 
+    "react-router-dom": "^6.5.0", 
+    "react-scripts": "^5.0.1", 
+    "sequelize": "^6.37.5", 
+    "sequelize-cli": "^6.6.2", 
+    "web-vitals": "^4.2.4", 
+    "webpack": "^5.97.1", 
+    "ws": "^8.7.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-scripts start", 
+    "build": "react-scripts build", 
+    "test": "react-scripts test", 
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
+      "react-app", 
       "react-app/jest"
     ]
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
+      ">0.2%", 
+      "not dead", 
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
+      "last 1 chrome version", 
+      "last 1 firefox version", 
       "last 1 safari version"
     ]
   }
