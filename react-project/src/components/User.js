@@ -11,8 +11,39 @@ function User() {
     }
   }, []);
 
-  const handleLogout = () => {
-    
+  const handleLogout = async () => {
+    const storedUsername = sessionStorage.getItem('username');
+
+    if (storedUsername) {
+      // Send GraphQL mutation to update activeStatus
+      const response = await fetch('http://localhost:4000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            mutation {
+              updateUserStatus(username: "${storedUsername}", activeStatus: false) {
+                id
+                fullName
+                username
+                activeStatus
+              }
+            }
+          `,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.errors) {
+        console.error('Error logging out:', result.errors);
+      } else {
+        console.log('User logged out and activeStatus updated:', result.data.updateUserStatus);
+      }
+    }
+
+    // Clear session storage and redirect to login page
     sessionStorage.clear();
     window.location.href = '/login';
   };

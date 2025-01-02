@@ -81,3 +81,34 @@
   background-color: aliceblue;
   color: #3c82f6;
 }
+/* Container for admin image and status indicator */
+.admin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+}
+
+/* Admin image style */
+.admin-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Admin name style */
+.user-name {
+  color: #9ca3af;
+  margin-top: 10px;
+}
+
+
+
+
+
+
+
+
+

@@ -7,9 +7,7 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const authenticateUser = async (username, password) => {
     const query = `
       query AuthenticateUser($username: String!, $password: String!) {
         authenticateUser(username: $username, password: $password) {
@@ -20,11 +18,10 @@ function Login({ onLogin }) {
         }
       }
     `;
-
     const variables = { username, password };
 
     try {
-      const response = await fetch('http://localhost:4000/graphql', { // Update with your GraphQL server URL
+      const response = await fetch('http://localhost:4000/graphql', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, variables }),
@@ -33,26 +30,70 @@ function Login({ onLogin }) {
       const result = await response.json();
 
       if (result.errors) {
-        alert(result.errors[0].message);
-        return;
+        throw new Error(result.errors[0].message);
       }
 
-      const user = result.data.authenticateUser;
-      console.log(user);
+      return result.data.authenticateUser;
+    } catch (error) {
+      alert('Error logging in: ' + error.message);
+      return null;
+    }
+  };
 
-      if (user && user.activeStatus) {
+  const updateUserStatus = async (username) => {
+    const updateStatusQuery = `
+      mutation UpdateActiveStatus($username: String!, $activeStatus: Boolean!) {
+        updateUserStatus(username: $username, activeStatus: $activeStatus) {
+          id
+          username
+          activeStatus
+        }
+      }
+    `;
+    const updateVariables = { username, activeStatus: true };
+
+    try {
+      const response = await fetch('http://localhost:4000/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: updateStatusQuery, variables: updateVariables }),
+      });
+
+      const result = await response.json();
+
+      if (result.errors) {
+        throw new Error(result.errors[0].message);
+      }
+
+      return result.data.updateUserStatus;
+    } catch (error) {
+      alert('Error updating user status: ' + error.message);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const user = await authenticateUser(username, password);
+
+    if (user) {
+      // Update activeStatus to true (1) after successful login
+      const updatedUser = await updateUserStatus(user.username);
+
+      if (updatedUser) {
+        // Set user details in sessionStorage
         sessionStorage.setItem('username', user.username);
-        console.log("login ",user.id)
         sessionStorage.setItem('id', user.id);
         sessionStorage.setItem('role', user.role);
         onLogin(user.role);
 
         navigate('/overview');
       } else {
-        alert('Account is inactive. Please contact support.');
+        alert('Failed to update user status. Please try again later.');
       }
-    } catch (error) {
-      alert('Error logging in: ' + error.message);
+    } else {
+      alert('Account is inactive. Please contact support.');
     }
   };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../styles/chat.css';
 import '../styles/style.css';
 import userImage from '../assets/images/user.webp';
-import { request } from 'graphql-request';  // Import GraphQL request library
+import { request } from 'graphql-request';
 
 function Chat() {
   const [activeAdmins, setActiveAdmins] = useState([]);
@@ -14,13 +14,12 @@ function Chat() {
   const endpoint = 'http://localhost:4000/graphql';
 
   const socketRef = useRef(null);
-
   const messagesEndRef = useRef(null);
 
-// Scroll to bottom when messages change
-useEffect(() => {
-  messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-}, [messages]);
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   // Add message function
   const addMessage = async (senderId, receiverId, message) => {
@@ -41,7 +40,7 @@ useEffect(() => {
         receiverId,
         content: message,
       });
-  
+
       if (response && response.addMessage) {
         setMessages((prevMessages) => [...prevMessages, response.addMessage]);
         setNewMessage('');
@@ -50,7 +49,7 @@ useEffect(() => {
       console.error('Error sending message:', error);
     }
   };
-  
+
   // Fetch admins function
   const fetchAdmins = async () => {
     const query = `
@@ -104,77 +103,79 @@ useEffect(() => {
       setSendingMessage(true);
       const senderId = parseInt(sessionStorage.getItem('id'), 10);
       const receiverId = selectedAdmin.id;
-  
+
       // Add message to local state before sending (optimistic update)
       const newMsg = {
-        type:'chat',
+        type: 'chat',
         senderId,
         receiverId,
         content: newMessage,
         timestamp: new Date().toISOString(),
       };
-  
-  
-      // Send message via WebSocket (if required)
+
       socketRef.current.send(JSON.stringify(newMsg));
-  
       await addMessage(senderId, receiverId, newMessage); // Send to database
-  
+
       setSendingMessage(false);
       setNewMessage(''); // Clear the input
     }
   };
-  
 
   // WebSocket initialization and message handling
   useEffect(() => {
     fetchAdmins();
-  
     socketRef.current = new WebSocket('ws://localhost:3033');
     const loggedInUserId = parseInt(sessionStorage.getItem('id'), 10);
 
-  
     socketRef.current.onopen = () => {
       console.log('WebSocket connection established.');
       socketRef.current.send(
         JSON.stringify({ type: 'register', senderId: loggedInUserId })
       );
     };
-    
-  
+
     socketRef.current.onerror = (error) => {
       console.error('WebSocket Error:', error);
     };
-  
+
     socketRef.current.onmessage = (event) => {
       const receivedMessage = JSON.parse(event.data);
-    
-    
-      // Check if the message is for the logged-in user or their selected admin
+
       if (
         selectedAdmin &&
-        (receivedMessage.senderId === selectedAdmin.id || 
-        (receivedMessage.receiverId === loggedInUserId && receivedMessage.senderId === selectedAdmin.id))
+        (receivedMessage.senderId === selectedAdmin.id ||
+          (receivedMessage.receiverId === loggedInUserId &&
+            receivedMessage.senderId === selectedAdmin.id))
       ) {
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       }
     };
-    
-  
+
     socketRef.current.onclose = () => {
       console.log('WebSocket connection closed');
     };
-  
+
     return () => {
       socketRef.current.close();
     };
   }, [selectedAdmin]);
-  
 
   // Filter admins based on search term
   const filteredAdmins = activeAdmins.filter((admin) =>
     admin.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Canvas for drawing green circle
+  const drawCircle = (canvas, isActive) => {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing
+    ctx.beginPath();
+    ctx.arc(5, 5, 5, 0, Math.PI * 2); // Draw a circle at the center
+    ctx.fillStyle = isActive ? '#18ae0b' : 'transparent'; // Set color based on active status
+    ctx.fill();
+  };
+  
+  
 
   return (
     <div className="chat">
@@ -193,13 +194,35 @@ useEffect(() => {
         <div className="admins-list">
           {filteredAdmins.length > 0 ? (
             filteredAdmins.map((admin) => (
-              <div key={admin.id} onClick={() => handleAdminClick(admin)} className="admin">
-                <img src={userImage} alt="Admin" className="admin-image" />
-                <p className="user-name">{admin.fullName}</p>
-              </div>
+              <div
+              key={admin.id}
+              onClick={() => handleAdminClick(admin)}
+              className="admin"
+              style={{ display: 'flex', alignItems: 'center', position: 'relative' }} // Flexbox for alignment
+            >
+              <img src={userImage} alt="Admin" className="admin-image" />
+              <canvas
+                width="10"
+                height="10"
+                ref={(canvas) => {
+                  if (canvas) {
+                    drawCircle(canvas, admin.activeStatus);
+                  }
+                }}
+                style={{
+                  marginLeft: '40px', // Space between the image and the circle
+                  marginRight: '10px', // Space between the circle and the username
+                }}
+              />
+              <p className="user-name">{admin.fullName}</p>
+            </div>
+            
+
+
+            
             ))
           ) : (
-            <p>No active admins found.</p>
+            <p>No admins available</p>
           )}
         </div>
       </div>
@@ -211,15 +234,40 @@ useEffect(() => {
             {messages.map((msg) => (
               <div
                 key={`${msg.senderId}-${msg.receiverId}-${msg.timestamp}`} // Unique key for each message
-                className={msg.senderId === parseInt(sessionStorage.getItem('id'), 10) ? 'sender-message-container' : 'receiver-message-container'}
+                className={
+                  msg.senderId === parseInt(sessionStorage.getItem('id'), 10)
+                    ? 'sender-message-container'
+                    : 'receiver-message-container'
+                }
               >
-                <p className={msg.senderId === parseInt(sessionStorage.getItem('id'), 10) ? 'sender-msg' : 'receiver-msg'}>
+                <p
+                  style={{
+                    color: '#9CA3AF', // Name color
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {msg.senderId === parseInt(sessionStorage.getItem('id'), 10)
+                    ? 'You'
+                    : selectedAdmin.fullName}
+                  :
+                </p>
+                <p
+                  style={{
+                    color:
+                      msg.senderId === parseInt(sessionStorage.getItem('id'), 10)
+                        ? '#34D198' // Sender message color
+                        : '#60A5FA', // Receiver message color
+                    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                    borderRadius: '8px',
+                    padding: '5px 10px',
+                  }}
+                >
                   {msg.content}
                 </p>
               </div>
             ))}
+            <div ref={messagesEndRef} />
           </div>
-
 
           <textarea
             rows="5"
