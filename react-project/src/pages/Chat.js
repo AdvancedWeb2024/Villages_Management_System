@@ -6,6 +6,7 @@ import { request } from 'graphql-request';
 
 function Chat() {
   const [activeAdmins, setActiveAdmins] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -15,6 +16,9 @@ function Chat() {
 
   const socketRef = useRef(null);
   const messagesEndRef = useRef(null);
+
+  const loggedInUserId = parseInt(sessionStorage.getItem('id'), 10);
+  const loggedInUserRole = sessionStorage.getItem('role'); // Assume role is stored in sessionStorage
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -50,8 +54,8 @@ function Chat() {
     }
   };
 
-  // Fetch admins function
-  const fetchAdmins = async () => {
+  // Fetch admins and users function
+  const fetchAdminsAndUsers = async () => {
     const query = `
       query {
         getUsersByRole(role: "admin") {
@@ -59,13 +63,20 @@ function Chat() {
           fullName
           activeStatus
         }
+        getUsers {
+          id
+          fullName
+          activeStatus
+          role
+        }
       }
     `;
     try {
       const response = await request(endpoint, query);
       setActiveAdmins(response.getUsersByRole || []);
+      setAllUsers(response.getUsers || []);
     } catch (error) {
-      console.error('Error fetching admins:', error);
+      console.error('Error fetching admins and users:', error);
     }
   };
 
@@ -93,28 +104,26 @@ function Chat() {
   // Handle admin click
   const handleAdminClick = (admin) => {
     setSelectedAdmin(admin);
-    const userId = parseInt(sessionStorage.getItem('id'), 10); // Assuming user ID is stored in sessionStorage
-    fetchMessages(userId, admin.id);
+    fetchMessages(loggedInUserId, admin.id);
   };
 
   // Handle send message
   const handleSendMessage = async () => {
     if (newMessage.trim() && !sendingMessage) {
       setSendingMessage(true);
-      const senderId = parseInt(sessionStorage.getItem('id'), 10);
       const receiverId = selectedAdmin.id;
 
       // Add message to local state before sending (optimistic update)
       const newMsg = {
         type: 'chat',
-        senderId,
+        senderId: loggedInUserId,
         receiverId,
         content: newMessage,
         timestamp: new Date().toISOString(),
       };
 
       socketRef.current.send(JSON.stringify(newMsg));
-      await addMessage(senderId, receiverId, newMessage); // Send to database
+      await addMessage(loggedInUserId, receiverId, newMessage); // Send to database
 
       setSendingMessage(false);
       setNewMessage(''); // Clear the input
@@ -123,9 +132,8 @@ function Chat() {
 
   // WebSocket initialization and message handling
   useEffect(() => {
-    fetchAdmins();
+    fetchAdminsAndUsers();
     socketRef.current = new WebSocket('ws://localhost:3033');
-    const loggedInUserId = parseInt(sessionStorage.getItem('id'), 10);
 
     socketRef.current.onopen = () => {
       console.log('WebSocket connection established.');
@@ -161,9 +169,13 @@ function Chat() {
   }, [selectedAdmin]);
 
   // Filter admins based on search term
-  const filteredAdmins = activeAdmins.filter((admin) =>
-    admin.fullName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAdmins = loggedInUserRole === 'admin'
+    ? allUsers.filter((user) =>
+        user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) // Filters users by search term
+      )
+    : activeAdmins.filter((admin) =>
+        admin.fullName.toLowerCase().includes(searchTerm.toLowerCase()) // Filters admins by search term
+      );
 
   // Canvas for drawing green circle
   const drawCircle = (canvas, isActive) => {
@@ -174,8 +186,6 @@ function Chat() {
     ctx.fillStyle = isActive ? '#18ae0b' : 'transparent'; // Set color based on active status
     ctx.fill();
   };
-  
-  
 
   return (
     <div className="chat">
@@ -190,36 +200,32 @@ function Chat() {
       />
 
       <div className="div-block">
-        <h3 style={{ color: 'aliceblue' }}>Available Admins</h3>
+        <h3 style={{ color: 'aliceblue' }}>Available Accounts</h3>
         <div className="admins-list">
           {filteredAdmins.length > 0 ? (
-            filteredAdmins.map((admin) => (
+            filteredAdmins.map((user) => (
               <div
-              key={admin.id}
-              onClick={() => handleAdminClick(admin)}
-              className="admin"
-              style={{ display: 'flex', alignItems: 'center', position: 'relative' }} // Flexbox for alignment
-            >
-              <img src={userImage} alt="Admin" className="admin-image" />
-              <canvas
-                width="10"
-                height="10"
-                ref={(canvas) => {
-                  if (canvas) {
-                    drawCircle(canvas, admin.activeStatus);
-                  }
-                }}
-                style={{
-                  marginLeft: '40px', // Space between the image and the circle
-                  marginRight: '10px', // Space between the circle and the username
-                }}
-              />
-              <p className="user-name">{admin.fullName}</p>
-            </div>
-            
-
-
-            
+                key={user.id}
+                onClick={() => handleAdminClick(user)}
+                className="admin"
+                style={{ display: 'flex', alignItems: 'center', position: 'relative' }} // Flexbox for alignment
+              >
+                <img src={userImage} alt="Admin" className="admin-image" />
+                <canvas
+                  width="10"
+                  height="10"
+                  ref={(canvas) => {
+                    if (canvas) {
+                      drawCircle(canvas, user.activeStatus);
+                    }
+                  }}
+                  style={{
+                    marginLeft: '40px', // Space between the image and the circle
+                    marginRight: '10px', // Space between the circle and the username
+                  }}
+                />
+                <p className="user-name">{user.fullName}</p>
+              </div>
             ))
           ) : (
             <p>No admins available</p>
@@ -235,7 +241,7 @@ function Chat() {
               <div
                 key={`${msg.senderId}-${msg.receiverId}-${msg.timestamp}`} // Unique key for each message
                 className={
-                  msg.senderId === parseInt(sessionStorage.getItem('id'), 10)
+                  msg.senderId === loggedInUserId
                     ? 'sender-message-container'
                     : 'receiver-message-container'
                 }
@@ -246,17 +252,11 @@ function Chat() {
                     fontWeight: 'bold',
                   }}
                 >
-                  {msg.senderId === parseInt(sessionStorage.getItem('id'), 10)
-                    ? 'You'
-                    : selectedAdmin.fullName}
-                  :
+                  {msg.senderId === loggedInUserId ? 'You' : selectedAdmin.fullName}:
                 </p>
                 <p
                   style={{
-                    color:
-                      msg.senderId === parseInt(sessionStorage.getItem('id'), 10)
-                        ? '#34D198' // Sender message color
-                        : '#60A5FA', // Receiver message color
+                    color: msg.senderId === loggedInUserId ? '#34D198' : '#60A5FA', // Sender message color
                     backgroundColor: 'rgba(0, 0, 0, 0.05)',
                     borderRadius: '8px',
                     padding: '5px 10px',

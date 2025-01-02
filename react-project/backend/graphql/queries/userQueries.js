@@ -1,7 +1,7 @@
 const { GraphQLInt, GraphQLList, GraphQLString } = require('graphql');
 const bcrypt = require('bcrypt');
 const UserType = require('../types/userType');
-const { User } = require('../../models/users'); 
+const { User } = require('../../models/users');
 
 const userQueries = {
   // Get User by ID
@@ -18,7 +18,7 @@ const userQueries = {
         }
         return user;
       } catch (error) {
-        throw new Error('Error fetching user: ' + error.message);
+        throw new Error(`Error fetching user with ID ${args.id}: ${error.message}`);
       }
     },
   },
@@ -30,7 +30,7 @@ const userQueries = {
         const users = await User.findAll();
         return users;
       } catch (error) {
-        throw new Error('Error fetching users: ' + error.message);
+        throw new Error(`Error fetching users: ${error.message}`);
       }
     },
   },
@@ -43,16 +43,38 @@ const userQueries = {
     async resolve(parent, args) {
       try {
         const users = await User.findAll({
-          where: {
-            role: args.role,
-          },
+          where: { role: args.role },
         });
         if (users.length === 0) {
-          throw new Error('No users found with the given role');
+          throw new Error(`No users found with role: ${args.role}`);
         }
         return users;
       } catch (error) {
-        throw new Error('Error fetching users by role: ' + error.message);
+        throw new Error(`Error fetching users by role (${args.role}): ${error.message}`);
+      }
+    },
+  },
+  // Get Users by Role and Active Status
+  getUsersByRoleAndStatus: {
+    type: new GraphQLList(UserType),
+    args: {
+      role: { type: GraphQLString },
+      activeStatus: { type: GraphQLInt },
+    },
+    async resolve(parent, args) {
+      try {
+        const users = await User.findAll({
+          where: {
+            role: args.role,
+            activeStatus: args.activeStatus,
+          },
+        });
+        if (users.length === 0) {
+          throw new Error(`No users found with role ${args.role} and active status ${args.activeStatus}`);
+        }
+        return users;
+      } catch (error) {
+        throw new Error(`Error fetching users by role and active status: ${error.message}`);
       }
     },
   },
@@ -80,7 +102,7 @@ const userQueries = {
         // Return the user if authentication is successful
         return user;
       } catch (error) {
-        throw new Error('Error authenticating user: ' + error.message);
+        throw new Error(`Error authenticating user: ${error.message}`);
       }
     },
   },

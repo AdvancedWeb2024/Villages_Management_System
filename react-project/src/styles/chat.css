@@ -8,6 +8,7 @@
   margin: 16px 0;
   font-size: 16px;
 }
+
 .chat .div-block {
   background-color: #1f2937;
   padding: 16px;
@@ -15,30 +16,38 @@
   margin-bottom: 16px;
   border-radius: 10px;
 }
+
 .chat .div-block h3 {
   margin-top: 0;
 }
+
 .chat .admins-list {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
   justify-content: flex-start;
   border-radius: 10px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding-bottom: 10px; /* Add padding to prevent cutting off content */
 }
+
 .chat .admins-list div {
   width: 100px;
   height: 100px;
   text-align: center;
+  flex-shrink: 0; /* Prevent the divs from shrinking */
 }
+
 .chat .admins-list div img {
   width: 50px;
   border-radius: 50%;
 }
+
 .chat .admins-list div p {
   color: #9ca3af;
   margin-top: 5px;
   text-wrap: wrap;
 }
+
 .chat .chatting {
   background-color: #1f2937;
   border: 1px solid #4b5563;
@@ -48,6 +57,7 @@
   margin: 5px 0;
   overflow-y: auto;
 }
+
 .chat textarea {
   width: calc(100% - (15px * 2));
   border-radius: 10px;
@@ -55,6 +65,7 @@
   padding: 10px;
   font-size: 16px;
 }
+
 .chat button {
   background-color: #3c82f6;
   color: white;
@@ -65,22 +76,27 @@
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
+
 .chat button:hover {
   background-color: #2a68c1;
   font-size: 18px;
   transform: scale(1.05);
 }
+
 .chat button:active {
   background-color: #1e58a3;
   transform: scale(1);
 }
+
 .chat button:focus {
   outline: none;
 }
+
 .chat button:checked {
   background-color: aliceblue;
   color: #3c82f6;
 }
+
 /* Container for admin image and status indicator */
 .admin {
   display: flex;
@@ -104,11 +120,16 @@
   margin-top: 10px;
 }
 
+/* Custom scrollbar styles for admins-list */
+.chat .admins-list::-webkit-scrollbar {
+  height: 8px; /* Set the height of the scrollbar */
+}
 
+.chat .admins-list::-webkit-scrollbar-thumb {
+  background-color: #4b5563; /* Set the color of the scrollbar thumb */
+  border-radius: 4px;
+}
 
-
-
-
-
-
-
+.chat .admins-list::-webkit-scrollbar-track {
+  background-color: transparent; /* Set the color of the scrollbar track */
+}
