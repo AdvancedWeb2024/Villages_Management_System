@@ -73,8 +73,8 @@ function Chat() {
     `;
     try {
       const response = await request(endpoint, query);
-      setActiveAdmins(response.getUsersByRole || []);
-      setAllUsers(response.getUsers || []);
+      setActiveAdmins(response.getUsersByRole || []); // Admins only
+      setAllUsers(response.getUsers || []); // All users (admins and regular users)
     } catch (error) {
       console.error('Error fetching admins and users:', error);
     }
@@ -171,10 +171,10 @@ function Chat() {
   // Filter admins based on search term
   const filteredAdmins = loggedInUserRole === 'admin'
     ? allUsers.filter((user) =>
-        user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) // Filters users by search term
+        user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) // Filter by search term for all users
       )
     : activeAdmins.filter((admin) =>
-        admin.fullName.toLowerCase().includes(searchTerm.toLowerCase()) // Filters admins by search term
+        admin.fullName.toLowerCase().includes(searchTerm.toLowerCase()) // Filter by search term for admins only
       );
 
   // Canvas for drawing green circle
