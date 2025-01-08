@@ -1,0 +1,83 @@
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-size: 16px;
+    font-family: "Calibri", sans-serif;
+    background-color: #1A202C;
+  }
+  .button,
+  .mybut {
+    background-color: #4A5568;
+    border: transparent;
+    color: aliceblue;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition-duration: 0.4s;
+    margin-left: 1%;
+  }
+  .button:hover,
+  .mybut:hover {
+    background-color: #684a55;
+  }
+  .top-head {
+    font-weight: bolder;
+    font-size: 2rem;
+    color: aliceblue;
+    margin: 0;
+  }
+
+  
+  /* Message container for sender and receiver */
+.chatting {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+/* Sender's message and name styles */
+.sender-message-container {
+  display: flex;
+  align-items: center;
+}
+
+.sender-name {
+  color: gray;
+  margin-right: 10px;
+}
+
+.sender-msg {
+  color: rgb(15, 182, 182);
+  background-color: transparent;
+  
+  
+}
+
+/* Receiver's message and name styles */
+.receiver-message-container {
+  display: flex;
+  align-items: center;
+
+}
+
+.receiver-name {
+  color: gray;
+  margin-right: 10px;
+}
+
+.receiver-msg {
+  color: blue;
+  background-color: transparent;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+  max-width: 80%;
+  display: inline-block;
+}
+
+
+
+  
+  

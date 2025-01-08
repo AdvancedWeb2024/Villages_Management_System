@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Village</title>
+    <link rel="stylesheet" href="../css/styles-CURD.css">
+</head>
+<body>
+
+  
+    <div class="form-overlay" id="formOverlay">
+        <div class="form-container">
+            <button id="closeFormBtn" class="close-btn">&times;</button>
+            <h2>Update Village</h2>
+            <form id="addVillageForm">
+                <div class="form-group">
+                    <label for="villageName">Village Name:</label>
+                    <input type="text" id="villageName" name="villageName"  disabled>
+                </div>
+                <div class="form-group">
+                    <label for="region">Region/District:</label>
+                    <input type="text" id="region" name="region"  required>
+                </div>
+                <div class="form-group">
+                    <label for="landArea">Land Area (sq km):</label>
+                    <input type="number" step="any" id="landArea" name="landArea"  required>
+                </div>
+                <div class="form-group">
+                    <label for="latitude">Latitude:</label>
+                    <input type="number" step="any" id="latitude" name="latitude"  required>
+                </div>
+                <div class="form-group">
+                    <label for="longitude">Longitude:</label>
+                    <input type="number" step="any" id="longitude" name="longitude"  required>
+                </div>
+                <div class="form-group">
+                    <label for="image">Upload Image:</label>
+                    <input type="file" id="image" name="image" accept="image/*" >
+                </div>
+                <button type="submit" class="submit_btn">Update Village</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

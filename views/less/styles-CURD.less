@@ -1,0 +1,158 @@
+// Define color variables
+@bg-dark: #2D3748;
+@bg-dark-hover: #495567;
+@bg-light: #CBD6E0;
+@bg-hover: #2B6CB0;
+@text-light: #FFFFFF;
+@text-dark: #ebeff3;
+@border-color: #4A5568;
+@overlay-bg: rgba(0, 0, 0, 0.7);
+@input-bg: #374151;
+@success-bg: #4CAF50;
+
+// General body styles
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+// Form Overlay
+.form-overlay {
+  background: @overlay-bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+// Form Container
+.form-container {
+  max-width: 450px;
+  width: 100%;
+  background: @bg-dark;
+  padding: 20px;
+  border: 1px solid @border-color;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  
+  h2 {
+    margin-bottom: 20px;
+    color: @bg-light;
+    font-size: 22px;
+    text-align: left;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: @text-light;
+        display: block;
+        text-align: left;
+      }
+
+      input,
+      select {
+        width: 95%;
+        padding: 10px;
+        border: 1px solid @border-color;
+        border-radius: 6px;
+        font-size: 14px;
+        background-color: @input-bg;
+        color: @text-dark;
+
+        &::placeholder {
+          color: #718096;
+        }
+      }
+    }
+
+    .submit_btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: @bg-dark-hover;
+      color: @text-light;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: @bg-hover;
+      }
+    }
+  }
+}
+
+// Close Button
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #79879f;
+  cursor: pointer;
+
+  &:hover {
+    color: @text-dark;
+    transform: scale(1.1);
+  }
+}
+
+// Success Message
+.success-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: @success-bg;
+  color: @text-light;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  display: none;
+
+  &.show {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+
+  &.hide {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+}
+
+// Image Styles
+.village-image {
+  width: 300px;
+  height: 200px;
+  padding: 10px;
+}
+
+// Paragraph View Style
+.par-view {
+  color: @text-light;
+}

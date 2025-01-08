@@ -1,0 +1,37 @@
+// Define color variables
+@bg-dark: #4A5568;
+@bg-dark-hover: #684a55;
+@text-light: aliceblue;
+
+// General Body Styles
+body {
+  display: flex;
+  margin: 0; 
+  padding: 0; 
+  height: 100vh;
+  font-size: 16px;
+  font-family: "Calibri", sans-serif;
+}
+
+// Button Styles
+.button, .mybut {
+  background-color: @bg-dark;
+  border: transparent;
+  color: @text-light;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: @bg-dark-hover;
+  }
+}
+
+// Top Heading Styles
+.top-head {
+  font-weight: bolder;
+  font-size: 2rem;
+  color: @text-light;
+  margin: 0;
+}

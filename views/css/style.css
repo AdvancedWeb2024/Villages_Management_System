@@ -1,0 +1,29 @@
+body {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-size: 16px;
+  font-family: "Calibri", sans-serif;
+}
+.button,
+.mybut {
+  background-color: #4A5568;
+  border: transparent;
+  color: aliceblue;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition-duration: 0.4s;
+  margin-left: 1%;
+}
+.button:hover,
+.mybut:hover {
+  background-color: #684a55;
+}
+.top-head {
+  font-weight: bolder;
+  font-size: 2rem;
+  color: aliceblue;
+  margin: 0;
+}
